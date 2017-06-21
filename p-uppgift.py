@@ -105,7 +105,7 @@ def load_animal_list(file):
                 ("Något är fel med .txt filen")
         return animal_list
 
-g
+
 load_animal_list(file='animal_list.txt')
 #print(Animal.num_of_animals)
 
