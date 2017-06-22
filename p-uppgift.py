@@ -1,6 +1,6 @@
 # Titel: Djurpark
 # Författare: Joakim Bäcklund
-# Datum: 2017-06-22
+# Datum: 2017-06-28
 
 # Detta är ett program som hjälper till att hålla reda på nyinköpta djur.
 
@@ -36,7 +36,8 @@ class Animal:
     def __repr__(self):
         """Formaterar strängarna till ett mer formellt format,
            så repr() blir så lik inputen som möjligt.
-           Zoo('name', age, species, 'gender')"""
+           Zoo('name', age, species, 'gender')
+        """
         return 'Namn: ' + self.name + '\n' + 'Ålder: ' + str(self.age) + '\n' + 'Djurart: ' + self.species + \
                '\n' + 'Kön: ' + self.gender + '\n'
         # return "Animals('{}', {}, '{}', '{}')".format(self.name, self.age, self.species, self.gender)
@@ -52,15 +53,19 @@ class Animal:
                '\n' + 'Kön: ' + self.gender + '\n' + "-----------"
 
     def get_name(self):
+        """returnerar djurnamn"""
         return self.name
 
     def get_age(self):
+        """returnerar ålder på djur"""
         return self.age
 
     def get_species(self):
+        """returnerar djurtart"""
         return self.species
 
     def get_gender(self):
+        """returnerar kön på djur"""
         return self.gender
 
 
@@ -102,6 +107,7 @@ class Zoo(Animal):
 
     @staticmethod
     def find_animal_by_name(name, animal_list):
+        """Söker efter djur baserat på namn"""
         [print(animal) for animal in animal_list if name in animal.name]
         if name not in [animal.species for animal in animal_list]:
             print("------------")
@@ -110,6 +116,7 @@ class Zoo(Animal):
 
     @staticmethod
     def find_animal_by_age(animal_list, age):
+        """Söker efter djur baserat på ålder"""
         [print(animal) for animal in animal_list if str(age) in str(animal.age)]
         if str(age) not in [str(animal.age) for animal in animal_list]:
                 print("------------")
@@ -118,6 +125,7 @@ class Zoo(Animal):
 
     @staticmethod
     def find_animal_by_species(animal_list, species):
+        """Söker efter djur baserat på djurart"""
         [print(animal) for animal in animal_list if species in animal.species]
         if species not in [animal.species for animal in animal_list]:
                 print("------------")
@@ -126,6 +134,7 @@ class Zoo(Animal):
 
     @staticmethod
     def find_animal_by_gender(animal_list, gender):
+        """Söker efter djur baserat på kön"""
         [print(animal) for animal in animal_list if gender in animal.gender]
         if gender not in [animal.gender for animal in animal_list]:
             print("------------")
@@ -156,10 +165,10 @@ class Zoo(Animal):
             except ValueError:
                 return line
             else:
-                print(attribute, "is an integer, but it should be an string.")
+                print(attribute, "är ett heltal, men det ska vara en sträng.")
                 raise ValueError
         else:
-            print("is_false can only be True/False or empty.")
+            print("is_false kan bara vara True eller False")
             raise ValueError
 
     @classmethod
@@ -284,7 +293,8 @@ def print_all():
         else:
             sorter(Zoo.get_name, reverse=True)
     elif choice2 == "Å":
-        print("F: i Fallande ordning? \nS: i Stigande ordning \n")
+        print("F: i Fallande ordning? \n"
+              "S: i Stigande ordning \n")
         choice3 = choose()
         if choice3 == "F":
             sorter(Zoo.get_age)
@@ -292,7 +302,8 @@ def print_all():
             sorter(key=Zoo.get_age, reverse=True)
 
     elif choice2 == "D":
-        print("F: i Fallande ordning? \nS: i Stigande ordning? \n")
+        print("F: i Fallande ordning? \n"
+              "S: i Stigande ordning? \n")
         choice3 = choose()
         if choice3 == "F":
             sorter(key=Zoo.get_species)
@@ -303,6 +314,9 @@ def print_all():
 
 
 def get_unique():
+    """returnerar en lista med
+    de unika djur som finns
+    """
     unique_animal_list = []
     for x in Zoo.animals:
         unique_animal_list.append(x.species)
@@ -347,7 +361,7 @@ def rec():
                     elif animal.species == ani and animal.gender == "Hona":
                         n += 1
                         female += 1
-                if abs(male-female) > 1 and animal.gender:
+                if abs(male - female) > 1 and animal.gender:
                     print("För att avla, borde du köpa in en", ani + ".", "Det finns", n,
                           "st. av typen", ani, "av könet", animal.gender + ".\n")
         else:
@@ -389,4 +403,5 @@ main()
 # TODO fixa klasser
 # TODO fixa så djurlistan fungerar?
 # TODO flytta incheckcontrolen till add animal?
+# TODO isinstance(obj, int), is seq
 # TODO maxtak för parken  fil?
