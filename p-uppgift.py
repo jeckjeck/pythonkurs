@@ -73,10 +73,10 @@ class Zoo(Animal):
     num_of_animals = 0
 
     def __init__(self, *args):     # *args gör att init kan ta emot godtyckligt många argument
-        super().__init__(*args)    # detta gör så att funktionen ärver alla init argument ifrån klasserna över
+        super().__init__(*args)    # detta gör så att funktionen ärver alla initiala argument ifrån klasserna ovanför
 
         Zoo.num_of_animals += 1
-        #self.animals.append(self)
+        # self.animals.append(self)
 
     def add_animal(self):
         """Lägger till ett djur"""
@@ -99,6 +99,7 @@ class Zoo(Animal):
             print("------------")
             print("Tyvärr finns det inget djur med det namnet.")
             print("------------")
+
     @staticmethod
     def find_animal_by_age(animal_list, age):
         [print(animal) for animal in animal_list if str(age) in str(animal.age)]
@@ -106,6 +107,7 @@ class Zoo(Animal):
                 print("------------")
                 print("Tyvärr finns det inget djur med den åldern.")
                 print("------------")
+
     @staticmethod
     def find_animal_by_species(animal_list, species):
         [print(animal) for animal in animal_list if species in animal.species]
@@ -165,17 +167,18 @@ class Zoo(Animal):
                 elif (row_nr - 1) % 4 == 0:
                     age = cls.is_string(line, "Age", is_false=True)
                     if age > 200:
-                        print("Animal named", name, "Animal can't be more than 200 years.")
-                        age = int(input("Please enter the correct age"))
+                        print("Djuret som heter", name, "Djuret kan inte vara mer än 200 år.")
+                        age = int(input("Vänligen skriv djurets riktiga ålder"))
                         print("-----------")
                 elif (row_nr - 2) % 4 == 0:
                     species = cls.is_string(line, "Species")
                 elif (row_nr - 3) % 4 == 0:
                     gender = cls.is_string(line, "Gender")
                     if gender not in ('Hane', 'Hona'):
-                        print("Gender is:", gender)
-                        print("gender can only be Hane or Hona.")
-                    Zoo(name, age, species, gender).add_animal()
+                        print("Kön är:", gender)
+                        print("Kön bara vara Hane eller hona.")
+                    if age and species:
+                        Zoo(name, age, species, gender).add_animal()
                 else:
                     print("Något är fel med .txt filen")
 
@@ -190,50 +193,21 @@ class Zoo(Animal):
         with open(filename, 'a') as f:
                 f.writelines(self.name + '\n' + str(self.age) + '\n' + self.species + '\n' + self.gender + '\n')
 
-
-
-
-
-
 Zoo.load_animal_list_from_file(filename='animal_list.txt')
-print(Zoo.num_of_animals)
+Zoo('brokdr', 13, 'Gnu', 'Hona').add_animal()
 
 
-# Animal('Jocke',13, 'frer', 'sdes').write_to_file_animal()
-# Zoo('Jocke', 33, 'Alligator', 'Hane').add_animal()
-Zoo('Jocke4', 33, 'Papegoja', 'Hane').add_animal()
-# Zoo('Bollen', 33, 'Papegoja', 'Hane').add_animal()
-# Zoo('Jocke5', 33, 'Human', 'Hane').sell_animal()
+INDENT = "  "   # Tomma tecken i början av indragna rader
 
-# for animal in Zoo.animals:
-#     if animal.name == "Jocke":
-#          print(animal)
-
-# for count, animal in enumerate(sorted(Zoo.animals, key=Animal.get_age, reverse=True)):
-#     print(animal)
-#     print(repr(animal))
-#     if count == 0:
-#         Zoo.clear_file('animal_list2.txt')
-#     Zoo.save_to_file(animal, filename='animal_list2.txt')
-
-
-
-# Zoo.find_animal_by_gender(sorted(Zoo.animals, key=Animal.get_age, reverse=True), gender="Hona")
-# Zoo.find_animal_by_species(sorted(Zoo.animals, key=Animal.get_age, reverse=True), species="Antilop")
-#print(Zoo.animals)
-#Zoo.find_animal_by_species(Zoo.animals, species="Gorilla")
-
-INDENT = "  " # Tomma tecken i början av indragna rader
 
 def print_menu():
     print(INDENT + "D  söka på Djur.")
-    print(INDENT + "Å  söka på Ålder.")
-    print(INDENT + "D  söka på Djurart.")
-    print(INDENT + "K  söka på Kön.")
     print(INDENT + "N  lägga till Nytt djur.")
-    print(INDENT + "B  ta Bort djur.")
-    print(INDENT + "A  lista Alla Djur.")
-    print(INDENT + "S  Sluta.")
+    print(INDENT + "S  Sälja djur.")
+    print(INDENT + "L  Lista alla Djur.")
+    print(INDENT + "R  få Rekommendationer.")
+    print(INDENT + "A  Avsluta.")
+
 
 # Läser in och returnerar första bokstaven i användarens val.
 # Omvandlar liten bokstav till stor.
@@ -241,55 +215,174 @@ def choose():
     choice = input("Vad vill du göra? ")
     return choice[0].upper()
 
-# Söker på titel.
-def search_title(Zoo):
-    title = input("Vilken djurart vill du söka efter? ")
-    Zoo.find_animal_by_species(Zoo.animals, title)
 
-def print_all(Zoo):
-    choice = input("Vill du sortera på något attribut? N: Nej \n N: Namn \n Å: Ålder \n D: Djurart \n G: Gå tillbaka ")
-    if choice == "N":
-        print(Zoo.animals)
-    elif choice == "Na":
-        print(sorted(Zoo.animals, key=Zoo.name))
-    elif choice == "Å":
-        print(sorted(Zoo.animals, key=Zoo.age))
-    elif choice == "D":
-        print(sorted(Zoo.animals, key=Zoo.species))
+# Söker på titel.
+def search_animal():
+    print("Vilket attribut vill du söka på? \n" 
+          "D  söka på djurnamn. \n"
+          "Å  söka på Ålder. \n"
+          "A  söka på djurArt.\n"
+          "K  söka på Kön. \n")
+    choice2 = choose()
+
+    if choice2 == "D":
+        choice3 = input("Vilket namn? ")
+        Zoo.find_animal_by_name(Zoo.animals, choice3)
+    elif choice2 == "Å":
+        choice3 = input("Vilken ålder? ")
+        Zoo.find_animal_by_age(Zoo.animals, choice3)
+    elif choice2 == "A":
+        choice3 = input("Vilken djurart? ")
+        Zoo.find_animal_by_species(Zoo.animals, choice3)
+    elif choice2 == "K":
+        choice3 = input("Vilket kön? ")
+        Zoo.find_animal_by_gender(Zoo.animals, choice3)
     else:
         main()
 
-# Söker på författare.
-# def search_author(catalog):
-#     author = input("Vad vill du söka efter: 1: Djur ")
-#     book_list = catalog.find_author(author)
-#     if len(book_list) == 0:
-#         print(INDENT + "Hittade inga böcker av den författaren.")
-#     else:
-#         print(INDENT + "Hittade " + str(len(book_list)) + " böcker")
-#         for book in book_list:
-#             print(INDENT + book)
+
+def animal_choice():
+    name = input("Vad heter djuret? ")
+    age = input("Vilken ålder har djuret? ")
+    species = input("Vilken djurart är djuret? ")
+    gender = input("Vilken kön har djuret? Hane eller Hona. ")
+    return name, age, species, gender
 
 
+def add_animal():
+    name, age, species, gender = animal_choice()
+    Zoo(name, age, species, gender).add_animal()
+
+
+def sell_animal():
+    name, age, species, gender = animal_choice()
+    Zoo(name, age, species, gender).sell_animal()
+
+
+def sorter(key, reverse=False):
+    [print(animal) for animal in sorted(Zoo.animals, key=key, reverse=reverse)]
+
+
+def print_all():
+    print("Vill du sortera på något attribut? "
+          " N: Nej. \n"
+          " A: nAmn. \n"
+          " Å: Ålder. \n"
+          " D: Djurart. \n"
+          " G: Gå tillbaka. \n")
+    choice2 = choose()
+    if choice2 == "N":
+        for animal in Zoo.animals:
+            print(animal)
+    elif choice2 == "Na":
+        print("F: i Fallande ordning?\n"
+              "S: i Stigande ordning \n")
+        choice3 = choose()
+        if choice3 == "F":
+            sorter(Zoo.get_name)
+        else:
+            sorter(Zoo.get_name, reverse=True)
+    elif choice2 == "Å":
+        print("F: i Fallande ordning? \nS: i Stigande ordning \n")
+        choice3 = choose()
+        if choice3 == "F":
+            sorter(Zoo.get_age)
+        else:
+            sorter(key=Zoo.get_age, reverse=True)
+
+    elif choice2 == "D":
+        print("F: i Fallande ordning? \nS: i Stigande ordning? \n")
+        choice3 = choose()
+        if choice3 == "F":
+            sorter(key=Zoo.get_species)
+        else:
+            sorter(key=Zoo.get_species, reverse=True)
+    else:
+        main()
+
+
+def get_unique():
+    unique_animal_list = []
+    for x in Zoo.animals:
+        unique_animal_list.append(x.species)
+    unique_animal_list = list(set(unique_animal_list))
+    return unique_animal_list
+
+
+def species_counter(cond):
+    unique_animal_list = get_unique()
+    for ani in unique_animal_list:
+        n = 0
+        for animal in Zoo.animals:
+            if animal.species == ani:
+                n += 1
+        if cond == "solo":
+            if n == 1:
+                print("Du borde köpa in en" + ". Det finns bara", n, "st av den typen.\n")
+        if cond == "many":
+            if n > 1:
+                print("Du kan sälja en", ani + ". Det finns redan", n, "st. av typen.\n")
+
+
+def rec():
+    print("Intresserad av att\n K: Köpa\n S: Sälja")
+    choice = choose()
+    if choice == "K":
+        buy = True
+    else:
+        buy = False
+    unique_animal_list = get_unique()
+    if buy:
+        species_counter(cond="solo")
+        if Zoo.num_of_animals < 20:
+            for ani in unique_animal_list:
+                n = 0
+                male = 0
+                female = 0
+                for animal in Zoo.animals:
+                    if animal.species == ani and animal.gender == "Hane":
+                        n += 1
+                        male += 1
+                    elif animal.species == ani and animal.gender == "Hona":
+                        n += 1
+                        female += 1
+                if abs(male-female) > 1:
+                    print("För att avla, borde du köpa in en", ani + ".", "Det finns", n,
+                          "st. av typen", ani, "av könet", animal.gender + ".\n")
+    else:
+        if Zoo.num_of_animals > 9:
+            species_counter(cond="many")
 
 
 def main():
     print("Välkommen till Djurparksprogrammet.")
     print_menu()
-    choice = choose();
-    while choice != "S":
+    choice = choose()
+    while choice != "A":
         if choice == "D":
-            search_title(Zoo)
-        elif choice == "A":
-            print_all(Zoo)
+            search_animal()
+        elif choice == "N":
+            add_animal()
+        elif choice == "S":
+            sell_animal()
+        elif choice == "L":
+            print_all()
+        elif choice == "R":
+            rec()
         choice = choose()
 
     Zoo.clear_file('animal_list2.txt')
     for animals in Zoo.animals:
         Zoo.save_to_file(animals, filename='animal_list2.txt')
+    print("Välkommen åter!")
+
+main()
+
+# print(Zoo.animals)
+# TODO kommentarer och kodskelett
+# TODO fixa klasser
+# TODO fixa så djurlistan fungerar?
+# TODO flytta features from loadfunktionen till add.animal
+# TODO maxtak för parken
 
 
-    print(INDENT + "Välkommen åter!")
-
-
-print(Zoo.animals)
