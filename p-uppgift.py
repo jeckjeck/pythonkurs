@@ -178,7 +178,7 @@ class Zoo(Animal):
                     species = cls.is_string(line, "Species")
                 elif (row_nr - 3) % 4 == 0:
                     gender = cls.is_string(line, "Gender")
-                    if age and species:
+                    if name and age and species:
                         Zoo(name, age, species, gender).add_animal()
                 else:
                     print("Något är fel med .txt filen")
@@ -347,7 +347,7 @@ def rec():
                     elif animal.species == ani and animal.gender == "Hona":
                         n += 1
                         female += 1
-                if abs(male-female) > 1:
+                if abs(male-female) > 1 and animal.gender:
                     print("För att avla, borde du köpa in en", ani + ".", "Det finns", n,
                           "st. av typen", ani, "av könet", animal.gender + ".\n")
         else:
@@ -388,7 +388,5 @@ main()
 # TODO kommentarer och kodskelett
 # TODO fixa klasser
 # TODO fixa så djurlistan fungerar?
-# TODO flytta features from loadfunktionen till add.animal
+# TODO flytta incheckcontrolen till add animal?
 # TODO maxtak för parken  fil?
-
-
