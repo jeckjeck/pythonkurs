@@ -313,7 +313,7 @@ def print_all():
         main()
 
 
-def get_unique():
+def get_unique_species():
     """returnerar en lista med
     de unika djur som finns
     """
@@ -325,15 +325,30 @@ def get_unique():
 
 
 def species_counter(cond):
-    unique_animal_list = get_unique()
+    unique_animal_list = get_unique_species()
     for ani in unique_animal_list:
         n = 0
+        if cond == "breed":
+            male = 0
+            female = 0
         for animal in Zoo.animals:
             if animal.species == ani:
                 n += 1
+                if cond == "breed":
+                    if animal.gender == "Hane":
+                        male += 1
+                    elif animal.gender == "Hona":
+                        female += 1
+            if cond == "breed":
+                if abs(male - female) > 1 and animal.gender:
+                    print("För att avla, borde du köpa in en", ani + ", av könet:",
+                          str({'Hona', 'Hane'}.difference({animal.gender})).strip("{'}") +
+                          ". Det finns för tillfället", n, "st. av typen", ani,
+                          "av könet", animal.gender + ".\n")
+
         if cond == "solo":
             if n == 1:
-                print("Du borde köpa in en" + ". Det finns bara", n, "st av den typen.\n")
+                print("Du borde köpa in en", ani + ". Det finns bara", n, "st av den typen.\n")
         if cond == "many":
             if n > 1:
                 print("Du kan sälja en", ani + ". Det finns redan", n, "st. av typen.\n")
@@ -346,29 +361,14 @@ def rec():
         buy = True
     else:
         buy = False
-    unique_animal_list = get_unique()
     if buy:
         species_counter(cond="solo")
         if Zoo.num_of_animals < 20:
-            for ani in unique_animal_list:
-                n = 0
-                male = 0
-                female = 0
-                for animal in Zoo.animals:
-                    if animal.species == ani and animal.gender == "Hane":
-                        n += 1
-                        male += 1
-                    elif animal.species == ani and animal.gender == "Hona":
-                        n += 1
-                        female += 1
-                if abs(male - female) > 1 and animal.gender:
-                    print("För att avla, borde du köpa in en", ani + ".", "Det finns", n,
-                          "st. av typen", ani, "av könet", animal.gender + ".\n")
+            species_counter(cond="breed")
         else:
-            print("Det finns ingen plats för något fler djur.")
-
+            print("Du har inte plats för fler djur.")
     else:
-        if Zoo.num_of_animals < 20:
+        if Zoo.num_of_animals > 20:
             species_counter(cond="many")
         else:
             print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
