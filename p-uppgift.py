@@ -85,6 +85,14 @@ class Zoo(Animal):
                 print("Du har redan döpt något djur till", self.name)
                 self.name = input("Vänligen ge djuret ett annat namn: ")
                 print("------------")
+        if int(self.age) > 200:
+            print("Djuret som heter", self.name, "kan inte vara mer än 200 år.")
+            self.age = int(input("Vänligen skriv djurets riktiga ålder: "))
+            print("-----------")
+        if self.gender not in ('Hane', 'Hona'):
+            print("Kön är:", self.gender)
+            print("Kön kan bara vara Hane eller hona.")
+
         self.animals.append(self)
 
     def sell_animal(self):
@@ -166,17 +174,10 @@ class Zoo(Animal):
                     name = cls.is_string(line, "Name")
                 elif (row_nr - 1) % 4 == 0:
                     age = cls.is_string(line, "Age", is_false=True)
-                    if age > 200:
-                        print("Djuret som heter", name, "Djuret kan inte vara mer än 200 år.")
-                        age = int(input("Vänligen skriv djurets riktiga ålder"))
-                        print("-----------")
                 elif (row_nr - 2) % 4 == 0:
                     species = cls.is_string(line, "Species")
                 elif (row_nr - 3) % 4 == 0:
                     gender = cls.is_string(line, "Gender")
-                    if gender not in ('Hane', 'Hona'):
-                        print("Kön är:", gender)
-                        print("Kön bara vara Hane eller hona.")
                     if age and species:
                         Zoo(name, age, species, gender).add_animal()
                 else:
@@ -349,9 +350,14 @@ def rec():
                 if abs(male-female) > 1:
                     print("För att avla, borde du köpa in en", ani + ".", "Det finns", n,
                           "st. av typen", ani, "av könet", animal.gender + ".\n")
+        else:
+            print("Det finns ingen plats för något fler djur.")
+
     else:
-        if Zoo.num_of_animals > 9:
+        if Zoo.num_of_animals < 20:
             species_counter(cond="many")
+        else:
+            print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
 
 
 def main():
@@ -372,17 +378,17 @@ def main():
         choice = choose()
 
     Zoo.clear_file('animal_list2.txt')
-    for animals in Zoo.animals:
-        Zoo.save_to_file(animals, filename='animal_list2.txt')
+    [Zoo.save_to_file(animals, filename='animal_list2.txt') for animals in Zoo.animals]
     print("Välkommen åter!")
 
 main()
+
 
 # print(Zoo.animals)
 # TODO kommentarer och kodskelett
 # TODO fixa klasser
 # TODO fixa så djurlistan fungerar?
 # TODO flytta features from loadfunktionen till add.animal
-# TODO maxtak för parken
+# TODO maxtak för parken  fil?
 
 
