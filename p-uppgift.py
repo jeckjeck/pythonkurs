@@ -73,7 +73,7 @@ class Animal:
 class Zoo(Animal):
     """Ärver metoder ifrån Animalklassen
     num_of_animals - räknare för nummer av djur på Zooet
-    animals - tom lista för
+    animals - tom lista där djuren som läggs till hamnar
     """
     animals = []
     num_of_animals = 0
@@ -301,16 +301,16 @@ def print_all():
         if choice3 == "F":
             sorter(Zoo.get_age)
         else:
-            sorter(key=Zoo.get_age, reverse=True)
+            sorter(Zoo.get_age, reverse=True)
 
     elif choice2 == "D":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning? \n")
         choice3 = choose()
         if choice3 == "F":
-            sorter(key=Zoo.get_species)
+            sorter(Zoo.get_species)
         else:
-            sorter(key=Zoo.get_species, reverse=True)
+            sorter(Zoo.get_species, reverse=True)
     else:
         main()
 
@@ -406,8 +406,8 @@ main()
 
 
 # print(Zoo.animals)
-# TODO fixa klasser, ta bort in argument från Zoo, flytta add_animal,
-#  sell, tostring till animal. Då kan load flyttas till Zoo init.
+# TODO flytta tostring till animal. Då kan load flyttas till Zoo init.
+# TODO fixa klasser, ta bort in argument från Zoo, flytta add_animal, sell
 # TODO kommentarer och kodskelett
 # TODO fixa så djurlistan fungerar?
 # TODO maxtak för parken  fil?
