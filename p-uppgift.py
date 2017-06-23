@@ -3,6 +3,7 @@
 # Datum: 2017-06-28
 
 # Detta är ett program som hjälper till att hålla reda på nyinköpta djur.
+# Sorterar och rekommenderar djurägaren vad han borde köpa för parkens bästa.
 
 # Program lagrar djur i en fil med namnet animal_list.txt
 # Mellan körningarna. Filen innehåller djurets namn, ålder, djurart och kön.
@@ -36,11 +37,11 @@ class Animal:
     def __repr__(self):
         """Formaterar strängarna till ett mer formellt format,
            så repr() blir så lik inputen som möjligt.
-           Zoo('name', age, species, 'gender')
+           Zoo("name", age, species, "gender")
         """
-        return 'Namn: ' + self.name + '\n' + 'Ålder: ' + str(self.age) + '\n' + 'Djurart: ' + self.species + \
-               '\n' + 'Kön: ' + self.gender + '\n'
-        # return "Animals('{}', {}, '{}', '{}')".format(self.name, self.age, self.species, self.gender)
+        return "Namn: " + self.name + "\n" + "Ålder: " + str(self.age) + "\n" + "Djurart: " + self.species + \
+               "\n" + "Kön: " + self.gender + "\n"
+        # return "Animals("{}", {}, "{}", "{}")".format(self.name, self.age, self.species, self.gender)
 
     def __str__(self):
         """Formaterar strängarna så outputen blir snyggare
@@ -49,8 +50,8 @@ class Animal:
            Djurart: Antilop
            Kön: Hona
         """
-        return 'Namn: ' + self.name + '\n' + 'Ålder: ' + str(self.age) + '\n' + 'Djurart: ' + self.species +\
-               '\n' + 'Kön: ' + self.gender + '\n' + "-----------"
+        return "Namn: " + self.name + "\n" + "Ålder: " + str(self.age) + "\n" + "Djurart: " + self.species + \
+               "\n" + "Kön: " + self.gender + "\n" + "-----------"
 
     def get_name(self):
         """returnerar djurnamn"""
@@ -77,8 +78,8 @@ class Zoo(Animal):
     animals = []
     num_of_animals = 0
 
-    def __init__(self, *args):     # *args gör att init kan ta emot godtyckligt många argument
-        super().__init__(*args)    # detta gör så att funktionen ärver alla initiala argument ifrån klasserna ovanför
+    def __init__(self, *args):  # *args gör att init kan ta emot godtyckligt många argument
+        super().__init__(*args)  # detta gör så att funktionen ärver alla initiala argument ifrån klasserna ovanför
 
         Zoo.num_of_animals += 1
         # self.animals.append(self)
@@ -94,7 +95,7 @@ class Zoo(Animal):
             print("Djuret som heter", self.name, "kan inte vara mer än 200 år.")
             self.age = int(input("Vänligen skriv djurets riktiga ålder: "))
             print("-----------")
-        if self.gender not in ('Hane', 'Hona'):
+        if self.gender not in ("Hane", "Hona"):
             print("Kön är:", self.gender)
             print("Kön kan bara vara Hane eller hona.")
 
@@ -119,18 +120,18 @@ class Zoo(Animal):
         """Söker efter djur baserat på ålder"""
         [print(animal) for animal in animal_list if str(age) in str(animal.age)]
         if str(age) not in [str(animal.age) for animal in animal_list]:
-                print("------------")
-                print("Tyvärr finns det inget djur med den åldern.")
-                print("------------")
+            print("------------")
+            print("Tyvärr finns det inget djur med den åldern.")
+            print("------------")
 
     @staticmethod
     def find_animal_by_species(animal_list, species):
         """Söker efter djur baserat på djurart"""
         [print(animal) for animal in animal_list if species in animal.species]
         if species not in [animal.species for animal in animal_list]:
-                print("------------")
-                print("Tyvärr finns det inget av den djurarten ännu.")
-                print("------------")
+            print("------------")
+            print("Tyvärr finns det inget av den djurarten ännu.")
+            print("------------")
 
     @staticmethod
     def find_animal_by_gender(animal_list, gender):
@@ -176,7 +177,7 @@ class Zoo(Animal):
         """Laddar in en fil med djur och deras attribut, testar även
         efter fel när filen läses in och lägger djuren i klassen Animal
         """
-        with open(filename, 'r') as f:
+        with open(filename, "r") as f:
             mylist = f.read().splitlines()
             for row_nr, line in enumerate(mylist):
                 if row_nr % 4 == 0:
@@ -194,20 +195,21 @@ class Zoo(Animal):
 
     @staticmethod
     def clear_file(filename):
-        """funktion ömmer filen"""
-        open(filename, 'w').close()
+        """funktion tömmer filen"""
+        open(filename, "w").close()
 
     def save_to_file(self, filename):
-        """Sparar till fil"""
-
-        with open(filename, 'a') as f:
-                f.writelines(self.name + '\n' + str(self.age) + '\n' + self.species + '\n' + self.gender + '\n')
-
-Zoo.load_animal_list_from_file(filename='animal_list.txt')
-Zoo('brokdr', 13, 'Gnu', 'Hona').add_animal()
+        """Sparar till fil
+        Skriver rad för rad.
+        """
+        with open(filename, "a") as f:
+            f.writelines(self.name + "\n" + str(self.age) + "\n" + self.species + "\n" + self.gender + "\n")
 
 
-INDENT = "  "   # Tomma tecken i början av indragna rader
+Zoo.load_animal_list_from_file(filename="animal_list.txt")
+Zoo("brokdr", 13, "Gnu", "Hona").add_animal()
+
+INDENT = "  "  # Tomma tecken i början av indragna rader
 
 
 def print_menu():
@@ -228,7 +230,7 @@ def choose():
 
 # Söker på titel.
 def search_animal():
-    print("Vilket attribut vill du söka på? \n" 
+    print("Vilket attribut vill du söka på? \n"
           "D  söka på djurnamn. \n"
           "Å  söka på Ålder. \n"
           "A  söka på djurArt.\n"
@@ -315,7 +317,7 @@ def print_all():
 
 def get_unique_species():
     """returnerar en lista med
-    de unika djur som finns
+    de unika djurarterna som finns
     """
     unique_animal_list = []
     for x in Zoo.animals:
@@ -339,16 +341,20 @@ def species_counter(cond):
                         male += 1
                     elif animal.gender == "Hona":
                         female += 1
-            if cond == "breed":
+            if cond == "breed" and (male or female):
                 if abs(male - female) > 1 and animal.gender:
-                    print("För att avla, borde du köpa in en", ani + ", av könet:",
-                          str({'Hona', 'Hane'}.difference({animal.gender})).strip("{'}") +
-                          ". Det finns för tillfället", n, "st. av typen", ani,
+                    print("Du borde köpa in en", ani, "av könet:",
+                          str({"Hona", "Hane"}.difference({animal.gender})).strip("{'}") +
+                          ". Det finns för tillfället", n, "st. av typen",
                           "av könet", animal.gender + ".\n")
 
-        if cond == "solo":
-            if n == 1:
-                print("Du borde köpa in en", ani + ". Det finns bara", n, "st av den typen.\n")
+        if cond == "solo" and n == 1:
+            print("Du borde köpa in en", ani, "av könet: {0}. "
+                  "Det finns bara en av den djurarten i parken. "
+                  "Den är av könet:"
+                  .format(str({"Hona", "Hane"}
+                              .difference({animal.gender}))
+                          .strip("{'}")), animal.gender + ". \n")
         if cond == "many":
             if n > 1:
                 print("Du kan sälja en", ani + ". Det finns redan", n, "st. av typen.\n")
@@ -391,17 +397,17 @@ def main():
             rec()
         choice = choose()
 
-    Zoo.clear_file('animal_list2.txt')
-    [Zoo.save_to_file(animals, filename='animal_list2.txt') for animals in Zoo.animals]
+    Zoo.clear_file("animal_list2.txt")
+    [Zoo.save_to_file(animals, filename="animal_list2.txt") for animals in Zoo.animals]
     print("Välkommen åter!")
+
 
 main()
 
 
 # print(Zoo.animals)
+# TODO fixa klasser, ta bort in argument från Zoo, flytta add_animal,
+#  sell, tostring till animal. Då kan load flyttas till Zoo init.
 # TODO kommentarer och kodskelett
-# TODO fixa klasser
 # TODO fixa så djurlistan fungerar?
-# TODO flytta incheckcontrolen till add animal?
-# TODO isinstance(obj, int), is seq
 # TODO maxtak för parken  fil?
