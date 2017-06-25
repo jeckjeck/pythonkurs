@@ -5,8 +5,8 @@
 # Detta är ett program som hjälper till att hålla reda på nyinköpta djur.
 # Sorterar och rekommenderar djurägaren vad han borde köpa för parkens bästa.
 
-# Program lagrar djur i en fil med namnet animal_list.txt
-# Mellan körningarna. Filen innehåller djurets namn, ålder, djurart och kön.
+# Program lagrar djur i en fil med namnet animal_list.txt mellan körningarna.
+# Filen innehåller djurets namn, ålder, djurart och kön.
 # Med följande format:
 #
 # Djurnamn
@@ -203,7 +203,7 @@ class Zoo(Animal):
         Skriver rad för rad.
         """
         with open(filename, "a") as f:
-            f.writelines(self.name + "\n" + str(self.age) + "\n" + self.species + "\n" + self.gender + "\n")
+            f.writelines([self.name, str(self.age), self.species, self.gender])
 
 
 Zoo.load_animal_list_from_file(filename="animal_list.txt")
@@ -406,8 +406,7 @@ main()
 
 
 # print(Zoo.animals)
-# TODO flytta tostring till animal. Då kan load flyttas till Zoo init.
-# TODO fixa klasser, ta bort in argument från Zoo, flytta add_animal, sell
+# TODO fixa klasser, ta bort in argument från Zoo, instansmetoder av load! och tostring?
 # TODO kommentarer och kodskelett
 # TODO fixa så djurlistan fungerar?
 # TODO maxtak för parken  fil?
