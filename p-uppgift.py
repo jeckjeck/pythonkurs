@@ -69,7 +69,7 @@ class Animal:
         return self.gender
 
 
-class Zoo(Animal):
+class Zoo():
     """Ärver metoder ifrån Animalklassen
     num_of_animals - räknare för nummer av djur på Zooet
     animals - tom lista där djuren som läggs till hamnar
@@ -80,37 +80,58 @@ class Zoo(Animal):
     animals = []
     num_of_animals = 0
 
-    def __init__(self, *args):  # *args gör att init kan ta emot godtyckligt många argument
-        super().__init__(*args)  # detta gör så att funktionen ärver alla initiala argument ifrån klasserna ovanför
+    def __init__(self, filename=None):  # *args gör att init kan ta emot godtyckligt många argument
+        self.filename = filename
+        with open(self.filename, "r") as f:
+            mylist = f.read().splitlines()
+            for row_nr, line in enumerate(mylist):
+                if row_nr % 4 == 0:
+                    name = line
+                elif (row_nr - 1) % 4 == 0:
+                    age = line
+                elif (row_nr - 2) % 4 == 0:
+                    species = line
+                elif (row_nr - 3) % 4 == 0:
+                    gender = line
+                    if all([name, age, species, gender]):
+                        #Zoo(name, age, species, gender).add_animal()
+                        animal = Animal(name, age, species, gender)
+                        print(animal)
+                        self.add_animal(animal)
+                else:
+                    print("Något är fel med .txt filen")
+    #     super().__init__(*args)  # detta gör så att funktionen ärver alla initiala argument ifrån klasserna ovanför
 
         # self.animals.append(self)
 
-    def add_animal(self):
+    def add_animal(self, ani):
         """Lägger till ett djur
         kontrollerar så alla attribut
         är av rätt typ och antar rätt värde
         lägger sedan till djuret till en lista
         samt ökar num_of_animals med ett.
         """
-        self.is_string(self.name, "Namn")
-        self.is_string(self.age, "Ålder", is_false=True)
-        self.is_string(self.species, "Djurart")
-        self.is_string(self.gender, "Kön")
+        #print(self)
+        animal = Animal(ani.name, ani.age, ani.species, ani.gender)
+        Zoo.is_string(animal.name, "Namn")
+        Zoo.is_string(animal.age, "Ålder", is_false=True)
+        Zoo.is_string(animal.species, "Djurart")
+        Zoo.is_string(animal.gender, "Kön")
 
-        for ani in self.animals:
-            if ani.name == self.name:
+        for ani in Zoo.animals:
+            if ani.name == animal.name:
                 print("Du har redan döpt något djur till", self.name)
                 self.name = input("Vänligen ge djuret ett annat namn: ")
                 print("------------")
-        if int(self.age) > 200:
-            print("Djuret som heter", self.name, "kan inte vara mer än 200 år.")
-            self.age = int(input("Vänligen skriv djurets riktiga ålder: "))
+        if int(animal.age) > 200:
+            print("Djuret som heter", animal.name, "kan inte vara mer än 200 år.")
+            animal.age = int(input("Vänligen skriv djurets riktiga ålder: "))
             print("-----------")
-        if self.gender not in ("Hane", "Hona"):
-            print("Kön är:", self.gender)
+        if animal.gender not in ("Hane", "Hona"):
+            print("Kön är:", animal.gender)
             print("Kön kan bara vara Hane eller hona.")
-        self.animals.append(self)
-        self.num_of_animals += 1
+        Zoo.animals.append(animal)
+        Zoo.num_of_animals += 1
 
     def sell_animal(self):
         """Säljer ett djur"""
@@ -185,25 +206,27 @@ class Zoo(Animal):
             raise ValueError
 
     @staticmethod
-    def load_animal_list_from_file(filename):
-        """Laddar in en fil med djur och deras attribut, testar även
-        efter fel när filen läses in och lägger djuren i klassen Animal
-        """
-        with open(filename, "r") as f:
-            mylist = f.read().splitlines()
-            for row_nr, line in enumerate(mylist):
-                if row_nr % 4 == 0:
-                    name = line
-                elif (row_nr - 1) % 4 == 0:
-                    age = line
-                elif (row_nr - 2) % 4 == 0:
-                    species = line
-                elif (row_nr - 3) % 4 == 0:
-                    gender = line
-                    if all([name, age, species, gender]):
-                        Zoo(name, age, species, gender).add_animal()
-                else:
-                    print("Något är fel med .txt filen")
+    # def load_animal_list_from_file(filename):
+    #     """Laddar in en fil med djur och deras attribut, testar även
+    #     efter fel när filen läses in och lägger djuren i klassen Animal
+    #     """
+    #     with open(filename, "r") as f:
+    #         mylist = f.read().splitlines()
+    #         for row_nr, line in enumerate(mylist):
+    #             if row_nr % 4 == 0:
+    #                 name = line
+    #             elif (row_nr - 1) % 4 == 0:
+    #                 age = line
+    #             elif (row_nr - 2) % 4 == 0:
+    #                 species = line
+    #             elif (row_nr - 3) % 4 == 0:
+    #                 gender = line
+    #                 if all([name, age, species, gender]):
+    #                     #Zoo(name, age, species, gender).add_animal()
+    #                     self.name, self.age, self.species, self.gender = Animal(name, age, species, gender)
+    #                     self.add_animal(self)
+    #             else:
+    #                 print("Något är fel med .txt filen")
 
     @staticmethod
     def clear_file(filename):
@@ -402,7 +425,7 @@ def rec():
 
 
 def main():
-    Zoo.load_animal_list_from_file(filename="animal_list.txt")
+    Zoo(filename="animal_list.txt")
     print("Välkommen till Djurparksprogrammet.")
     print_menu()
     choice = choose()
@@ -424,9 +447,11 @@ def main():
     print("Välkommen åter!")
 
 main()
+#ett = Animal("Bebbe",5,"Gorilla","Hona")
+#Zoo.add_animal(ett)
 
 # print(Zoo.animals)
 # TODO fixa klasser, ta bort in argument från Zoo, instansmetoder av load! och tostring?
 # TODO kodskelett
 # TODO fixa så djurlistan fungerar?
-# TODO maxtak för parken  fil?
+# TODO maxtak för parken fil?
