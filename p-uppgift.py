@@ -36,11 +36,9 @@ class Animal:
     def __repr__(self):
         """Formaterar strängarna till ett mer formellt format,
            så repr() blir så lik inputen som möjligt.
-           Zoo("name", age, species, "gender")
+           Animal("name", age, species, "gender")
         """
-        return "Namn: " + self.name + "\n" + "Ålder: " + str(self.age) + "\n" + "Djurart: " + self.species + \
-               "\n" + "Kön: " + self.gender + "\n"
-        # return "Animals("{}", {}, "{}", "{}")".format(self.name, self.age, self.species, self.gender)
+        return "Animals({0}, {1}, {2}, {3})".format(self.name, self.age, self.species, self.gender)
 
     def __str__(self):
         """Formaterar strängarna så outputen blir snyggare
@@ -106,71 +104,6 @@ class Zoo:
                 else:
                     print("Något är fel med .txt filen")
 
-    def add_animal(self, animal):
-        """
-        Lägger till ett djur och kontrollerar så alla
-        attribut är av rätt typ och antar rätt värde
-        lägger sedan till djuret till en lista samt ökar
-        num_of_animals med ett.
-
-        : param animal -- är ett objekt av Animal-klassen.
-        """
-        # print(self)
-        # animal = Animal(ani.name, ani.age, ani.species, ani.gender)
-        self.is_string(animal.name)
-        self.is_string(animal.age, is_false=True)
-        self.is_string(animal.species)
-        self.is_string(animal.gender)
-        for ani in self.animals:
-            if ani.name == animal.name:
-                print("Du har redan döpt något djur till", animal.name)
-                animal.name = input("Vänligen ge djuret ett annat namn: ")
-                print("------------")
-        if int(animal.age) > 200:
-            print("Djuret som heter", animal.name, "kan inte vara mer än 200 år.")
-            animal.age = int(input("Vänligen skriv djurets riktiga ålder: "))
-            print("-----------")
-        if animal.gender not in ("Hane", "Hona"):
-            print("Kön är:", animal.gender)
-            print("Kön kan bara vara Hane eller hona.")
-        self.animals.append(animal)
-        self.num_of_animals += 1
-
-    def sell_animal(self, name):
-        """Säljer ett djur"""
-        for animal in self.animals:
-            if name == animal.name:
-                self.animals.remove(animal)
-                self.num_of_animals -= 1
-
-    def find_animal_by_name(self, name):
-        """Söker efter djur baserat på djurets attribut"""
-        for animal in self.animals:
-            if name in animal.name:
-                return animal
-        return None
-
-    def find_animal_by_age(self, age):
-        """Söker efter djur baserat på djurets attribut"""
-        for animal in self.animals:
-            if age in animal.age:
-                return animal
-        return None
-
-    def find_animal_by_species(self, name):
-        """Söker efter djur baserat på djurets attribut"""
-        for animal in self.animals:
-            if name in animal.name:
-                return animal
-        return None
-
-    def find_animal_by_gender(self, gender):
-        """Söker efter djur baserat på djurets attribut"""
-        for animal in self.animals:
-            if gender in animal.gender:
-                return animal
-        return None
-
     @staticmethod
     def is_string(attribute, is_false=False):
         """funktionen testar om strängen är ett heltal eller sträng
@@ -200,6 +133,69 @@ class Zoo:
             print("is_false kan bara vara True eller False.")
             raise ValueError
 
+    def add_animal(self, animal):
+        """
+        Lägger till ett djur och kontrollerar så alla
+        attribut är av rätt typ och antar rätt värde
+        lägger sedan till djuret till en lista samt ökar
+        num_of_animals med ett.
+
+        : param animal -- är ett objekt av Animal-klassen.
+        """
+        self.is_string(animal.name)
+        self.is_string(animal.age, is_false=True)
+        self.is_string(animal.species)
+        self.is_string(animal.gender)
+        for ani in self.animals:
+            if ani.name == animal.name:
+                print("Du har redan döpt något djur till", animal.name)
+                animal.name = input("Vänligen ge djuret ett annat namn: ")
+                print("------------")
+        if int(animal.age) > 200:
+            print("Djuret som heter", animal.name, "kan inte vara mer än 200 år.")
+            animal.age = int(input("Vänligen skriv djurets riktiga ålder: "))
+            print("-----------")
+        if animal.gender not in ("Hane", "Hona"):
+            print("Kön är:", animal.gender)
+            print("Kön kan bara vara Hane eller hona.")
+        self.animals.append(animal)
+        self.num_of_animals += 1
+
+    def sell_animal(self, name):
+        """Säljer ett djur"""
+        for animal in self.animals:
+            if name == animal.name:
+                self.animals.remove(animal)
+                self.num_of_animals -= 1
+
+    def find_animal_by_name(self, name):
+        """Söker efter djur baserat på djurets namn"""
+        for animal in self.animals:
+            if name in animal.name:
+                return animal
+        return None
+
+    def find_animal_by_age(self, age):
+        """Söker efter djur baserat på djurets ålder"""
+        for animal in self.animals:
+            if age in animal.age:
+                return animal
+        return None
+
+    def find_animal_by_species(self, name):
+        """Söker efter djur baserat på djurets art"""
+        for animal in self.animals:
+            if name in animal.name:
+                return animal
+        return None
+
+    def find_animal_by_gender(self, gender):
+        """Söker efter djur baserat på djurets kön"""
+        for animal in self.animals:
+            if gender in animal.gender:
+                return animal
+        return None
+
     def save_to_file(self, filename):
         """Sparar till fil Skriver rad för rad."""
         with open(filename, "w") as f:
@@ -218,9 +214,9 @@ def print_menu():
 
 
 def choose():
-    """Läser in och returnerar första bokstaven i användarens val."""
+    """returnerar användarens val."""
     choice = input("Vad vill du göra? ")
-    return choice[0]
+    return choice
 
 
 def search_animal(zoo):
@@ -407,7 +403,7 @@ def rec(zoo):
 
 
 def main():
-    fil = "animal_list.txt"
+    file = "animal_list.txt"
     zoo = Zoo(fil)
     zoo.load_animal_list_from_file()
     zoo.load_max_num_of_animals_from_file()
@@ -428,7 +424,10 @@ def main():
             rec(zoo)
         choice = choose()
 
-    zoo.save_to_file(fil)
+    zoo.save_to_file(file)
     print("Välkommen åter!")
 
 main()
+
+
+# TODO load from text kommentar
