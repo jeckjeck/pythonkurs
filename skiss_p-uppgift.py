@@ -11,7 +11,7 @@ class Animal:
 
     def save_animal(self):
         with open ('animal_list.txt', 'a') as f:
-            f.writelines(self.name + '\n' + str(self.age) + '\n' + self.art + '\n' + self.gender + '\n')
+            f.writelines([self.name ,"\n", str(self.age),"\n", self.art,"\n", self.gender,"\n"] )
 
 
 Animal('Bebbe', 5, 'Gorilla', 'Hona').save_animal()
@@ -26,6 +26,7 @@ Animal('Marcello',6, 'Elg', 'Hane').save_animal()
 Animal('Flax',15, 'Papegoja', 'Hane').save_animal()
 Animal('Sipper',12, 'Gnu', 'Hona').save_animal()
 Animal('BowWow',7, 'Antilop', 'Hane').save_animal()
+Animal("Eola", 13, "Gnu", "Hona").save_animal()
 
 class Zoo:
     animals = []
