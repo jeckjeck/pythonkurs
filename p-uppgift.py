@@ -211,9 +211,7 @@ class Zoo(Animal):
         open(filename, "w").close()
 
     def save_to_file(self, filename):
-        """Sparar till fil
-        Skriver rad för rad.
-        """
+        """Sparar till fil Skriver rad för rad."""
         with open(filename, "a") as f:
             f.writelines([self.name, str(self.age), self.species, self.gender])
 
@@ -241,9 +239,8 @@ def choose():
 
 
 def search_animal():
-    """Menyval för vilket attribut
-    och vad det ska vara för värde
-     Som det ska sökas på
+    """Menyval för vilket attribut och vad
+    det ska vara för värde som det ska sökas på
      """
     print("Vilket attribut vill du söka på? \n"
           "D  söka på djurnamn. \n"
@@ -341,9 +338,7 @@ def print_all():
 
 
 def get_unique_species():
-    """returnerar en lista med
-    de unika djurarterna som finns
-    """
+    """returnerar en lista med de unika djurarterna som finns """
     unique_animal_list = []
     for x in Zoo.animals:
         unique_animal_list.append(x.species)
@@ -352,8 +347,7 @@ def get_unique_species():
 
 
 def species_counter(cond):
-    """Funktionen skriver ut rekommendationer
-    baserat på vad användare har för syfte"""
+    """Funktionen skriver ut rekommendationer baserat på vad användare har för syfte"""
     unique_animal_list = get_unique_species()
     for ani in unique_animal_list:
         n = 0
@@ -390,11 +384,9 @@ def species_counter(cond):
 
 
 def rec():
-    """Skriver ut en valmeny för
-    vad anv. är intresserad av
-    att få för sorts rekommendationer.
-    Hänsyn tas till maxstorleken på
-    Djurparken
+    """Skriver ut en valmeny för vad anv. är intresserad
+    av att få för sorts rekommendationer. Hänsyn tas till
+    maxstorleken på djurparken.
     """
     print("Intresserad av att\n K: Köpa\n S: Sälja")
     choice = choose()
@@ -442,6 +434,6 @@ main()
 
 # print(Zoo.animals)
 # TODO fixa klasser, ta bort in argument från Zoo, instansmetoder av load! och tostring?
-# TODO kommentarer och kodskelett
+# TODO kodskelett
 # TODO fixa så djurlistan fungerar?
 # TODO maxtak för parken  fil?
