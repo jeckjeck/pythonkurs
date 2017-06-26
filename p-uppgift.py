@@ -363,9 +363,9 @@ def species_counter(cond):
             female = 0
         for animal in Zoo.animals:
             string = ("Du borde köpa in en {0} av könet: {1}. " 
-                                                       "Det finns bara en av den djurarten i parken. "
-                                                       "Den är av könet: {2}.")\
-                .format(str(ani),str({"Hona", "Hane"}.difference({animal.gender}))
+                      "Det finns bara en av den djurarten i parken. "
+                      "Den är av könet: {2}.")\
+                .format(str(ani), str({"Hona", "Hane"}.difference({animal.gender}))
                         .strip("{'}"), str(animal.gender))
             if animal.species == ani:
                 n += 1
@@ -381,7 +381,7 @@ def species_counter(cond):
                     # existerar, skrivs det djuret ut och vilket kön som bör köpas.
                     print(string)
 
-        if cond == "solo" and n == 1:
+        if all([cond == "solo", string, n == 1]):
             print(string)
 
         if cond == "many":
