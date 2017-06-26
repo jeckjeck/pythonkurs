@@ -216,10 +216,6 @@ class Zoo(Animal):
             f.writelines([self.name, str(self.age), self.species, self.gender])
 
 
-Zoo.load_animal_list_from_file(filename="animal_list.txt")
-Zoo("brokdr", 13, "Gnu", "Hona").add_animal()
-
-
 def print_menu():
     """Skriver ut valmeny"""
     print("D  söka på Djur.")
@@ -356,24 +352,22 @@ def species_counter(cond):
             male = 0
             female = 0
         for animal in Zoo.animals:
-            string = ("Du borde köpa in en {0} av könet: {1}. " 
-                      "Det finns bara en av den djurarten i parken. "
-                      "Den är av könet: {2}.")\
-                .format(str(ani), str({"Hona", "Hane"}.difference({animal.gender}))
-                        .strip("{'}"), str(animal.gender))
             if animal.species == ani:
                 n += 1
+                string = ("borde köpas in en {0} av könet: {1}. "
+                          "Det finns för närvarande {2} st. av den djurarten i parken. "
+                          "Den eller de är av könet: {3}.") \
+                    .format(str(ani), str({"Hona", "Hane"}.difference({animal.gender}))
+                            .strip("{'}"), n, str(animal.gender))
                 if cond == "breed":
                     if animal.gender == "Hane":
                         male += 1
                     elif animal.gender == "Hona":
                         female += 1
-            if cond == "breed" and (male or female):
-                if abs(male - female) > 1 and animal.gender:
-                    pass
-                    # Om det finns fler hanar än honor eller tvärtom, samt att animal.gender
-                    # existerar, skrivs det djuret ut och vilket kön som bör köpas.
-                    print(string)
+            if cond == "breed" and (male or female) and abs(male - female) > 1:
+                # Om det finns fler hanar än honor eller tvärtom, samt att animal.gender
+                # existerar, skrivs det djuret ut och vilket kön som bör köpas.
+                print(string)
 
         if all([cond == "solo", string, n == 1]):
             print(string)
@@ -395,8 +389,8 @@ def rec():
     else:
         buy = False
     if buy:
-        species_counter(cond="solo")
         if Zoo.num_of_animals < 20:
+            species_counter(cond="solo")
             species_counter(cond="breed")
         else:
             print("Du har inte plats för fler djur.")
@@ -408,6 +402,7 @@ def rec():
 
 
 def main():
+    Zoo.load_animal_list_from_file(filename="animal_list.txt")
     print("Välkommen till Djurparksprogrammet.")
     print_menu()
     choice = choose()
@@ -428,9 +423,7 @@ def main():
     [Zoo.save_to_file(animals, filename="animal_list2.txt") for animals in Zoo.animals]
     print("Välkommen åter!")
 
-
 main()
-
 
 # print(Zoo.animals)
 # TODO fixa klasser, ta bort in argument från Zoo, instansmetoder av load! och tostring?
