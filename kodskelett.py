@@ -6,7 +6,6 @@
 # Program lagrar djur i en fil med namnet animal_list.txt mellan körningarna.
 
 
-
 class Animal:
     """"
     Klass för djur och deras attribut.
@@ -67,6 +66,7 @@ class Zoo:
 
     def load_max_num_of_animals_from_file(self):
         """läser in djurets maxantal från textfil"""
+        return
 
     def load_animal_list_from_file(self):
         """läser in en textfil"""
@@ -103,20 +103,10 @@ class Zoo:
         """Söker efter djur baserat på djurets kön"""
         return
 
-    @staticmethod
-    def is_string(attribute, is_false=False):
-        """funktionen testar om strängen är ett heltal eller textsträng
-
-        :param attribute är en sträng.
-        :param is_false boolean typ, default är False. Sätt till True
-                        för att testa om det är ett en heltal.
-        :returnerar ett heltal om man testar för heltal och det är sant, samma för sträng.
-        """
-        return
-
     def save_to_file(self, filename):
         """Sparar till fil Skriver rad för rad."""
         return
+
 
 def print_menu():
     """Skriver ut valmeny"""
@@ -139,6 +129,7 @@ def animal_choice():
     """Valmeny för djurattribut"""
     return
 
+
 def add_animal(zoo):
     """Lägger till djur"""
     return
@@ -150,21 +141,25 @@ def sell_animal(zoo):
 
 
 def sorter(zoo, key, reverse=False):
-    """ Skriver ut djur och sorterar på parametrarna
-     som är de olika djurattribut i stigande (reverse = True)
-     eller fallande (reverse = False) ordning
+    """
+    Skriver ut djur och sorterar på olika attributena med hjälp
+    av parametern key som är metoder i Animalklassen i stigande
+    (reverse = True) eller i fallande (reverse = False) ordning
     """
     return
+
+
 def print_all(zoo):
     """Skriver ut menyval för vilka attribut
-     det ska sorteras på och vilken ordning
+     det ska sorteras på och i vilken ordning
      """
     return
+
 
 def main():
     """Huvudprogrammet"""
     file = "animal_list.txt"
-    zoo = Zoo(fil)
+    zoo = Zoo(file)
     print("Välkommen till Djurparksprogrammet.")
     print_menu()
     choice = choose()

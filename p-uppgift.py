@@ -285,16 +285,17 @@ def sell_animal(zoo):
 
 
 def sorter(zoo, key, reverse=False):
-    """ Skriver ut djur och sorterar på parametrarna
-     som är de olika djurattribut i stigande (reverse = True)
-     eller fallande (reverse = False) ordning
+    """
+    Skriver ut djur och sorterar på olika attributena med hjälp
+    av parametern key som är metoder i Animalklassen i stigande
+    (reverse = True) eller i fallande (reverse = False) ordning
     """
     [print(animal) for animal in sorted(zoo.animals, key=key, reverse=reverse)]
 
 
 def print_all(zoo):
     """Skriver ut menyval för vilka attribut
-     det ska sorteras på och vilken ordning
+     det ska sorteras på och i vilken ordning
      """
     print("Vill du sortera efter något attribut? \n"
           " I: Inget. \n"
