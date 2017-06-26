@@ -69,7 +69,7 @@ class Animal:
         return self.gender
 
 
-class Zoo():
+class Zoo:
     """Ärver metoder ifrån Animalklassen
     num_of_animals - räknare för nummer av djur på Zooet
     animals - tom lista där djuren som läggs till hamnar
@@ -82,6 +82,8 @@ class Zoo():
 
     def __init__(self, filename=None):  # *args gör att init kan ta emot godtyckligt många argument
         self.filename = filename
+
+    def load_animal_list_from_file(self):
         with open(self.filename, "r") as f:
             mylist = f.read().splitlines()
             for row_nr, line in enumerate(mylist):
@@ -94,31 +96,27 @@ class Zoo():
                 elif (row_nr - 3) % 4 == 0:
                     gender = line
                     if all([name, age, species, gender]):
-                        #Zoo(name, age, species, gender).add_animal()
                         animal = Animal(name, age, species, gender)
-                        print(animal)
                         self.add_animal(animal)
                 else:
                     print("Något är fel med .txt filen")
-    #     super().__init__(*args)  # detta gör så att funktionen ärver alla initiala argument ifrån klasserna ovanför
 
-        # self.animals.append(self)
+    def add_animal(self, animal):
+        """
+        Lägger till ett djur och kontrollerar så alla
+        attribut är av rätt typ och antar rätt värde
+        lägger sedan till djuret till en lista samt ökar
+        num_of_animals med ett.
 
-    def add_animal(self, ani):
-        """Lägger till ett djur
-        kontrollerar så alla attribut
-        är av rätt typ och antar rätt värde
-        lägger sedan till djuret till en lista
-        samt ökar num_of_animals med ett.
+        : param animal -- är ett objekt av Animal-klassen.
         """
         #print(self)
-        animal = Animal(ani.name, ani.age, ani.species, ani.gender)
-        Zoo.is_string(animal.name, "Namn")
-        Zoo.is_string(animal.age, "Ålder", is_false=True)
-        Zoo.is_string(animal.species, "Djurart")
-        Zoo.is_string(animal.gender, "Kön")
-
-        for ani in Zoo.animals:
+        #animal = Animal(ani.name, ani.age, ani.species, ani.gender)
+        self.is_string(animal.name, "Namn")
+        self.is_string(animal.age, "Ålder", is_false=True)
+        self.is_string(animal.species, "Djurart")
+        self.is_string(animal.gender, "Kön")
+        for ani in self.animals:
             if ani.name == animal.name:
                 print("Du har redan döpt något djur till", self.name)
                 self.name = input("Vänligen ge djuret ett annat namn: ")
@@ -130,47 +128,41 @@ class Zoo():
         if animal.gender not in ("Hane", "Hona"):
             print("Kön är:", animal.gender)
             print("Kön kan bara vara Hane eller hona.")
-        Zoo.animals.append(animal)
-        Zoo.num_of_animals += 1
+        self.animals.append(animal)
+        self.num_of_animals += 1
 
-    def sell_animal(self):
+    def sell_animal(self, animal):
         """Säljer ett djur"""
         if self in self.animals:
-            self.animals.remove(self)
+            self.animals.remove(animal)
             self.num_of_animals -= 1
 
-    @staticmethod
-    def find_animal_by_name(name, animal_list):
+    def find_animal_by_name(self, name):
         """Söker efter djur baserat på namn"""
-        [print(animal) for animal in animal_list if name in animal.name]
-        if name not in [animal.species for animal in animal_list]:
-            print("------------")
+        [print(animal) for animal in self.animals if name in animal.name]
+        if name not in [animal.name for animal in self.animals]:
             print("Tyvärr finns det inget djur med det namnet.")
             print("------------")
 
-    @staticmethod
-    def find_animal_by_age(animal_list, age):
+    def find_animal_by_age(self, age):
         """Söker efter djur baserat på ålder"""
-        [print(animal) for animal in animal_list if str(age) in str(animal.age)]
-        if str(age) not in [str(animal.age) for animal in animal_list]:
-            print("------------")
+        [print(animal) for animal in self.animals if str(age) in str(animal.age)]
+        if str(age) not in [str(animal.age) for animal in self.animals]:
             print("Tyvärr finns det inget djur med den åldern.")
             print("------------")
 
-    @staticmethod
-    def find_animal_by_species(animal_list, species):
+    def find_animal_by_species(self, species):
         """Söker efter djur baserat på djurart"""
-        [print(animal) for animal in animal_list if species in animal.species]
-        if species not in [animal.species for animal in animal_list]:
+        [print(animal) for animal in self.animals if species in animal.species]
+        if species not in [animal.species for animal in self.animals]:
             print("------------")
-            print("Tyvärr finns det inget av den djurarten ännu.")
+            print("Tyvärr finns ingen av den djurarten ännu.")
             print("------------")
 
-    @staticmethod
-    def find_animal_by_gender(animal_list, gender):
+    def find_animal_by_gender(self, gender):
         """Söker efter djur baserat på kön"""
-        [print(animal) for animal in animal_list if gender in animal.gender]
-        if gender not in [animal.gender for animal in animal_list]:
+        [print(animal) for animal in self.animals if gender in animal.gender]
+        if gender not in [animal.gender for animal in self.animals]:
             print("------------")
             print("Tyvärr finns det inget djur med könet", gender, ", ännu")
             print("------------")
@@ -185,6 +177,8 @@ class Zoo():
                         för att testa om det är ett en heltal.
         :returnerar ett heltal om man testar för heltal och det är sant, samma för sträng.
         """
+
+
         if is_false:
             try:
                 int(line)
@@ -204,29 +198,6 @@ class Zoo():
         else:
             print("is_false kan bara vara True eller False.")
             raise ValueError
-
-    @staticmethod
-    # def load_animal_list_from_file(filename):
-    #     """Laddar in en fil med djur och deras attribut, testar även
-    #     efter fel när filen läses in och lägger djuren i klassen Animal
-    #     """
-    #     with open(filename, "r") as f:
-    #         mylist = f.read().splitlines()
-    #         for row_nr, line in enumerate(mylist):
-    #             if row_nr % 4 == 0:
-    #                 name = line
-    #             elif (row_nr - 1) % 4 == 0:
-    #                 age = line
-    #             elif (row_nr - 2) % 4 == 0:
-    #                 species = line
-    #             elif (row_nr - 3) % 4 == 0:
-    #                 gender = line
-    #                 if all([name, age, species, gender]):
-    #                     #Zoo(name, age, species, gender).add_animal()
-    #                     self.name, self.age, self.species, self.gender = Animal(name, age, species, gender)
-    #                     self.add_animal(self)
-    #             else:
-    #                 print("Något är fel med .txt filen")
 
     @staticmethod
     def clear_file(filename):
@@ -270,7 +241,7 @@ def search_animal():
 
     if choice2 == "D":
         choice3 = input("Vilket namn? ")
-        Zoo.find_animal_by_name(Zoo.animals, choice3)
+        Zoo().find_animal_by_name(name=choice3)
     elif choice2 == "Å":
         choice3 = input("Vilken ålder? ")
         Zoo.find_animal_by_age(Zoo.animals, choice3)
@@ -425,7 +396,7 @@ def rec():
 
 
 def main():
-    Zoo(filename="animal_list.txt")
+    Zoo(filename="animal_list.txt").load_animal_list_from_file()
     print("Välkommen till Djurparksprogrammet.")
     print_menu()
     choice = choose()
@@ -448,7 +419,7 @@ def main():
 
 main()
 #ett = Animal("Bebbe",5,"Gorilla","Hona")
-#Zoo.add_animal(ett)
+#Zoo().add_animal(animal=ett)
 
 # print(Zoo.animals)
 # TODO fixa klasser, ta bort in argument från Zoo, instansmetoder av load! och tostring?
