@@ -58,7 +58,7 @@ class Animal:
 
     def get_age(self):
         """returnerar ålder på djur"""
-        return self.age
+        return int(self.age)
 
     def get_species(self):
         """returnerar djurtart"""
@@ -69,16 +69,15 @@ class Animal:
         return self.gender
 
 
-class Zoo():
+class Zoo:
     """Klass för Djur på djurparken
-    num_of_animals - räknare för nummer av djur på Zooet
-    animals - tom lista där djuren som läggs till hamnar
+
 
     :param filename - fil som kan läsas in.
-    :attribut animals - lista för de tillagda djuren
-    :attribut num_of_animals - räknare för antalet tilllagda djur
+    :instansvariabel animals -  tom lista för de tillagda djuren
+    :instansvariabel num_of_animals - räknare för antalet tilllagda djur i djurparken
     """
-    def __init__(self, filename=None):  # *args gör att init kan ta emot godtyckligt många argument
+    def __init__(self, filename=None):
         self.filename = filename
         self.animals = []
         self.num_of_animals = 0
@@ -112,10 +111,10 @@ class Zoo():
         """
         # print(self)
         # animal = Animal(ani.name, ani.age, ani.species, ani.gender)
-        self.is_string(animal.name, "Namn")
-        self.is_string(animal.age, "Ålder", is_false=True)
-        self.is_string(animal.species, "Djurart")
-        self.is_string(animal.gender, "Kön")
+        self.is_string(animal.name)
+        self.is_string(animal.age, is_false=True)
+        self.is_string(animal.species)
+        self.is_string(animal.gender)
         for ani in self.animals:
             if ani.name == animal.name:
                 print("Du har redan döpt något djur till", animal.name)
@@ -167,28 +166,27 @@ class Zoo():
         return None
 
     @staticmethod
-    def is_string(line, attribute, is_false=False):
+    def is_string(attribute, is_false=False):
         """funktionen testar om strängen är ett heltal eller sträng
 
-        :param line är en sträng.
-        :param attribute är vilket attribut det är fel på, bara till för utskrift.
+        :param attribute är en sträng.
         :param is_false boolean typ, default är False. Sätt till True
                         för att testa om det är ett en heltal.
         :returnerar ett heltal om man testar för heltal och det är sant, samma för sträng.
         """
         if is_false:
             try:
-                int(line)
+                int(attribute)
             except ValueError as e:
-                print(e)
+                print(e, "Ålder ska vara en ett heltal och inte en textsträng.")
                 print("-----------")
             else:
-                return int(line)
+                return int(attribute)
         elif not is_false:
             try:
-                int(line)
+                int(attribute)
             except ValueError:
-                return line
+                return attribute
             else:
                 print(attribute, "är ett heltal, men det ska vara en sträng.")
                 raise ValueError
@@ -310,26 +308,26 @@ def print_all(zoo):
               "S: i Stigande ordning \n")
         choice3 = choose()
         if choice3 == "F":
-            sorter(zoo, zoo.animals.name)
+            sorter(zoo, Animal.get_name)
         else:
-            sorter(zoo, zoo.get_name, reverse=True)
+            sorter(zoo, Animal.get_name, reverse=True)
     elif choice2 == "Å":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning \n")
         choice3 = choose()
         if choice3 == "F":
-            sorter(Animal.get_age)
+            sorter(zoo, Animal.get_age)
         else:
-            sorter(Zoo.get_age, reverse=True)
+            sorter(zoo, Animal.get_age, reverse=True)
 
     elif choice2 == "D":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning? \n")
         choice3 = choose()
         if choice3 == "F":
-            sorter(Zoo.get_species)
+            sorter(zoo, Animal.get_species)
         else:
-            sorter(Zoo.get_species, reverse=True)
+            sorter(zoo, Animal.get_species, reverse=True)
     else:
         main()
 
@@ -425,16 +423,7 @@ def main():
     zoo.save_to_file(filename="animal_list2.txt")
     print("Välkommen åter!")
 
-
 main()
-# ett = Animal("Bybbe",5,"Gorilla","Hona")
-# tva = Animal("Babbe",5,"Gorilla","Hona")
-# Zoo().add_animal(animal=ett)
-# Zoo().add_animal(animal=tva)
-#print(Zoo().animals)
 
-# print(Zoo.animals)
-# TODO is string fungerar inte för age?
-# TODO fixa sorter
 # TODO kodskelett
 # TODO maxtak för parken fil?
