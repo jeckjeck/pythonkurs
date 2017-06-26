@@ -405,7 +405,7 @@ def rec(zoo):
 
 def main():
     file = "animal_list.txt"
-    zoo = Zoo(fil)
+    zoo = Zoo(file)
     zoo.load_animal_list_from_file()
     zoo.load_max_num_of_animals_from_file()
 
@@ -432,3 +432,4 @@ main()
 
 
 # TODO load from text kommentar
+# TODO inlamning3 är fortf fel
