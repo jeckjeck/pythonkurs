@@ -70,7 +70,8 @@ class Animal:
 
 
 class Zoo:
-    """Klass för Djur på djurparken
+    """Klass för Djur på djurparken. Klassen sköter kontrollen av djur, funktioner för
+    att lägga till djur, sälja djur, hitta djur och spara djurlistan.
 
 
     :param filename - fil som kan läsas in.
@@ -80,7 +81,12 @@ class Zoo:
     def __init__(self, filename=None):
         self.filename = filename
         self.animals = []
+        self.max = None
         self.num_of_animals = 0
+
+    def load_max_num_of_animals_from_file(self):
+        with open("maxtak.txt", "r") as f:
+            self.max = int(f.read())
 
     def load_animal_list_from_file(self):
         with open(self.filename, "r") as f:
@@ -388,13 +394,13 @@ def rec(zoo):
     else:
         buy = False
     if buy:
-        if zoo.num_of_animals < 20:
+        if zoo.num_of_animals < zoo.max:
             species_counter(zoo, cond="solo")
             species_counter(zoo, cond="breed")
         else:
             print("Du har inte plats för fler djur.")
     else:
-        if zoo.num_of_animals > 20:
+        if zoo.num_of_animals > zoo.max:
             species_counter(zoo, cond="many")
         else:
             print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
@@ -404,6 +410,8 @@ def main():
     fil = "animal_list.txt"
     zoo = Zoo(fil)
     zoo.load_animal_list_from_file()
+    zoo.load_max_num_of_animals_from_file()
+
     print("Välkommen till Djurparksprogrammet.")
     print_menu()
     choice = choose()
@@ -420,10 +428,7 @@ def main():
             rec(zoo)
         choice = choose()
 
-    zoo.save_to_file(filename="animal_list2.txt")
+    zoo.save_to_file(fil)
     print("Välkommen åter!")
 
 main()
-
-# TODO kodskelett
-# TODO maxtak för parken fil?
