@@ -1,6 +1,6 @@
 # Titel: Djurpark
 # Författare: Joakim Bäcklund
-# Datum: 2017-06-28
+# Datum: 2017-06-27
 
 # Detta är ett program som hjälper till att hålla reda på nyinköpta djur.
 # Sorterar och rekommenderar djurägaren vad han borde köpa för parkens bästa.
@@ -18,7 +18,11 @@
 class Animal:
     """"
     Klass för djur och deras attribut
-    Klassen har metoder som fungerar som en datastruktur för djuret.
+    Klassen har metoder som fungerar
+    som en datastruktur för djuret.
+    Dessa metoder används senare som key
+    till sorteringsfunktionen
+    utanför klasserna.
 
 
     :param name - sträng namnet på djuret
@@ -358,7 +362,7 @@ def species_counter(zoo, cond):
             male = 0
             female = 0
         for animal in zoo.animals:
-            if animal.species ==species:
+            if animal.species == species:
                 n += 1
                 # strängen som printas vid rekommendationer skapas redan här
                 # då den används på två olika ställen.
