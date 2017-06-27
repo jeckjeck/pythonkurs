@@ -7,12 +7,13 @@ import random
 
 
 class Tivoli:
-    def __init__(self,  age_min, attraktion_name, sounds, height_min=None):
+    def __init__(self,  age_min, attraktion_name, reklam, sounds, height_min=None):
         self.height_min = height_min
         if height_min is None:
             self.height_min = 0
         self.age_min = age_min
         self.attraktion_name = attraktion_name
+        self.reklam = reklam
         self.sounds = sounds
 
     @staticmethod
@@ -28,7 +29,7 @@ class Tivoli:
         """Kollar längd och ålder"""
         height = int(input('Hur lång är du? '))
         age = int(input('Hur gammal är du? '))
-        if self.height_min > height :
+        if self.height_min > height:
             print('Du är för kort för att åka denna attrakion, du är bara ' + str(height) + 'cm. \n Det krävs '
                   'minimum', self.height_min, 'längd för denna attraktion. \n Vänligen testa någon annan attraktion')
         elif self.age_min > age :
@@ -44,15 +45,18 @@ class Tivoli:
 #   Funktion som frågar vilken attraktion man vill åka, while loop som gör att valet återkommer efter varje
 #   Attraktionsförsök
 def main_runner():
+    attraktion = [Tivoli(9,  "Berg och dalbana","Upp och ner i hög fart!" , "Iiiih!", 150),Tivoli(9, "radiobilar","Kör som tok", "Wruum wruum!", 120),
+                  Tivoli(7, "lustiga huset","Det roligaste huset på nöjesfältet","Hahaha!")]
+
     print("Hej och välkommen till nöjesfältet Tivoli.")
     while True:
-        val = int(input('\n Vad vill du åka? 1: Berg och dalbana, 2: radiobilar, 3: lustiga huset, 4: Jag vill gå hem \n'))
-        if val == 1:
-            Tivoli(age_min=9, height_min=150, attraktion_name="Berg och dalbana", sounds="Iiiih!").start()
-        elif val == 2:
-            Tivoli(age_min=9, height_min=120, attraktion_name="radiobilar", sounds="Wruum wruum!").start()
-        elif val == 3:
-            Tivoli(age_min=7, attraktion_name="lustiga huset", sounds="Hahaha!").start()
+        val = int(input('Vad vill du åka? \n 1: Berg och dalbana \n 2: radiobilar \n 3: lustiga huset \n 4: Jag vill gå hem \n'))
+        while val:
+            print(attraktion[val - 1].reklam, "\n")
+            break
+        if val == 1 or val == 2 or val == 3:
+            attraktion[val-1].start()
+
         elif val == 4:
             print("Välkommen åter!")
             return

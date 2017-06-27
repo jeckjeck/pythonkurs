@@ -1,6 +1,7 @@
 
 class Animal:
     num_of_animals = 0
+    animal_list = []
 
     def __init__(self, name, age, art, gender):
         self.name = name
@@ -8,10 +9,13 @@ class Animal:
         self.art = art
         self.gender = gender
         Animal.num_of_animals += 1
+        self.animal_list.append(self)
+
 
     def save_animal(self):
-        with open ('animal_list.txt', 'a') as f:
-            f.writelines([self.name ,"\n", str(self.age),"\n", self.art,"\n", self.gender,"\n"] )
+        with open ('animal_list.txt', 'w') as f:
+            for animal in self.animal_list:
+                f.writelines([animal.name ,"\n", str(animal.age),"\n", animal.art,"\n", animal.gender,"\n"] )
 
 
 Animal('Bebbe', 5, 'Gorilla', 'Hona').save_animal()

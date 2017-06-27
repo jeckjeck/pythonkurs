@@ -87,6 +87,9 @@ class Zoo:
             self.max = int(f.read())
 
     def load_animal_list_from_file(self):
+        """Laddar in en fil med djur och deras attribut, testar även
+        efter fel när filen läses in och lägger djuren i klassen Animal
+        """
         with open(self.filename, "r") as f:
             mylist = f.read().splitlines()
             for row_nr, line in enumerate(mylist):
@@ -338,28 +341,31 @@ def print_all(zoo):
 def get_unique_species(zoo):
     """returnerar en lista med de unika djurarterna som finns """
     unique_animal_list = []
-    for ani in zoo.animals:
-        unique_animal_list.append(ani.species)
-    unique_animal_list = list(set(unique_animal_list))
-    return unique_animal_list
+    for animal in zoo.animals:
+        unique_animal_list.append(animal.species)
+        # Projektion på sig själv, tar fram de unika värdena
+        # och stoppar dem i en ny lista
+        return list(set(unique_animal_list))
 
 
 def species_counter(zoo, cond):
     """Funktionen skriver ut rekommendationer baserat på vad användare har för syfte"""
     unique_animal_list = get_unique_species(zoo)
-    for ani in unique_animal_list:
+    for species in unique_animal_list:
         n = 0
         if cond == "breed":
-            # Om anv. väljer breed, Skapas två variabler som fungerar som räknare senare.
+            # här skapas två variabler som fungerar som räknare senare.
             male = 0
             female = 0
         for animal in zoo.animals:
-            if animal.species == ani:
+            if animal.species ==species:
                 n += 1
+                # strängen som printas vid rekommendationer skapas redan här
+                # då den används på två olika ställen.
                 string = ("borde köpas in en {0} av könet: {1}. "
                           "Det finns för närvarande {2} st. av den djurarten i parken. "
                           "Den eller de är av könet: {3}.") \
-                    .format(str(ani), str({"Hona", "Hane"}.difference({animal.gender}))
+                    .format(str(species), str({"Hona", "Hane"}.difference({animal.gender}))
                             .strip("{'}"), n, str(animal.gender))
                 if cond == "breed":
                     if animal.gender == "Hane":
@@ -376,7 +382,7 @@ def species_counter(zoo, cond):
 
         if cond == "many":
             if n > 1:
-                print("Du kan sälja en", ani + ". Det finns redan", n, "st. av typen.\n")
+                print("Du kan sälja en", species + ". Det finns redan", n, "st. av typen.\n")
 
 
 def rec(zoo):
@@ -429,7 +435,3 @@ def main():
     print("Välkommen åter!")
 
 main()
-
-
-# TODO load from text kommentar
-# TODO inlamning3 är fortf fel
