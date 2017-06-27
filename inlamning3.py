@@ -45,16 +45,16 @@ class Tivoli:
 #   Funktion som frågar vilken attraktion man vill åka, while loop som gör att valet återkommer efter varje
 #   Attraktionsförsök
 def main_runner():
-    attraktion = [Tivoli(9,  "Berg och dalbana","Upp och ner i hög fart!" , "Iiiih!", 150),Tivoli(9, "radiobilar","Kör som tok", "Wruum wruum!", 120),
-                  Tivoli(7, "lustiga huset","Det roligaste huset på nöjesfältet","Hahaha!")]
+    attraktion = [Tivoli(9,  "Berg och dalbana","Upp och ner i hög fart!" , "Iiiih! \n", 150),Tivoli(9, "Radiobilar","Kör som tok", "Wruum wruum! \n", 120),
+                  Tivoli(7, "Lustiga huset","Det roligaste huset på nöjesfältet.","Hahaha! \n")]
 
     print("Hej och välkommen till nöjesfältet Tivoli.")
     while True:
-        val = int(input('Vad vill du åka? \n 1: Berg och dalbana \n 2: radiobilar \n 3: lustiga huset \n 4: Jag vill gå hem \n'))
-        while val:
-            print(attraktion[val - 1].reklam, "\n")
-            break
+        val = int(input('Vad vill du åka? \n 1: Berg och dalbana \n 2: Radiobilar \n 3: Lustiga huset \n 4: Jag vill gå hem \n'))
         if val == 1 or val == 2 or val == 3:
+            while val:
+                print(attraktion[val - 1].reklam, "\n")
+                break
             attraktion[val-1].start()
 
         elif val == 4:
