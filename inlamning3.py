@@ -31,10 +31,10 @@ class Tivoli:
         age = int(input('Hur gammal är du? '))
         if self.height_min > height:
             print('Du är för kort för att åka denna attrakion, du är bara ' + str(height) + 'cm. \n Det krävs '
-                  'minimum', self.height_min, 'längd för denna attraktion. \n Vänligen testa någon annan attraktion')
+                  'minimum', self.height_min, 'cm för denna attraktion. \n Vänligen testa någon annan attraktion. \n')
         elif self.age_min > age :
             print('Du är för ung för att åka denna attrakion, du är bara ' + str(age) + 'år.\n Det krävs '
-                  'minimum', self.age_min, 'år för denna attraktion.\n Vänligen testa någon annan attraktion.')
+                  'minimum', self.age_min, 'år för denna attraktion.\n Vänligen testa någon annan attraktion. \n')
         else:
             print('\n', self.sounds)
 
@@ -52,9 +52,7 @@ def main_runner():
     while True:
         val = int(input('Vad vill du åka? \n 1: Berg och dalbana \n 2: Radiobilar \n 3: Lustiga huset \n 4: Jag vill gå hem \n'))
         if val == 1 or val == 2 or val == 3:
-            while val:
-                print(attraktion[val - 1].reklam, "\n")
-                break
+            print(attraktion[val - 1].reklam, "\n")
             attraktion[val-1].start()
 
         elif val == 4:
