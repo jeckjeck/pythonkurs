@@ -366,42 +366,37 @@ def get_unique_species(zoo):
 def species_counter(zoo, cond):
     """Funktionen skriver ut rekommendationer baserat på vad användare har för syfte"""
     unique_animal_list = get_unique_species(zoo)
-    for species in unique_animal_list:
+    for ani in unique_animal_list:
         n = 0
         if cond == "breed":
-            # här skapas två variabler som fungerar som räknare senare.
+            # Om anv. väljer breed, Skapas två variabler som fungerar som räknare senare.
             male = 0
             female = 0
         for animal in zoo.animals:
-            if species == animal.species:
+            if animal.species == ani:
                 n += 1
-                print(species)
-                # strängen som printas vid rekommendationer skapas redan här
-                # då den används på två olika ställen.
+                string = ("borde köpas in en {0} av könet: {1}. "
+                          "Det finns för närvarande {2} st. av den djurarten i parken. "
+                          "Den eller de är av könet: {3}.") \
+                    .format(str(ani), str({"Hona", "Hane"}.difference({animal.gender}))
+                            .strip("{'}"), n, str(animal.gender))
+                if cond == "breed":
+                    if animal.gender == "Hane":
+                        male += 1
+                    elif animal.gender == "Hona":
+                        female += 1
+            if cond == "breed" and (male or female) and abs(male - female) > 1:
+                # Om det finns fler hanar än honor eller tvärtom, samt att animal.gender
+                # existerar, skrivs det djuret ut och vilket kön som bör köpas.
+                print(string)
 
-                # string = ("borde köpas in en {0} av könet: {1}. "
-                #           "Det finns för närvarande {2} st. av den djurarten i parken. "
-                #           "Den eller de är av könet: {3}.") \
-                #     .format(str(species), str({"Hona", "Hane"}.difference({animal.gender}))
-                #             .strip("{'}"), n, str(animal.gender))
+        if all([cond == "solo", string, n == 1]):
+            print(string)
 
-            if cond == "breed" and (male or female):
-                if abs(male - female) > 1 and animal.gender:
-                    print("Du borde köpa in en", species, "av könet:",
-                          str({"Hona", "Hane"}.difference({animal.gender})).strip("{'}") +
-                          ". Det finns för tillfället", n, "st. av typen",
-                          "av könet", animal.gender + ".\n")
-
-        if cond == "solo" and n == 1:
-            print("Du borde köpa in en", species, "av könet: {0}. "
-                                              "Det finns bara en av den djurarten i parken. "
-                                              "Den är av könet:"
-                  .format(str({"Hona", "Hane"}
-                              .difference({animal.gender}))
-                          .strip("{'}")), animal.gender + ". \n")
         if cond == "many":
             if n > 1:
-                print("Du kan sälja en", species + ". Det finns redan", n, "st. av typen.\n")
+                print("Du kan sälja en", ani + ". Det finns redan", n, "st. av typen.\n")
+
 
 
 def rec(zoo):
