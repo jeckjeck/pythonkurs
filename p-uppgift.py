@@ -162,7 +162,7 @@ class Zoo:
         while animal.gender not in ("Hane", "Hona"):
             print("Kön är:", animal.gender)
             print("Kön kan bara vara Hane eller hona.")
-            animal.gender = int(input("Vänligen skriv djurets riktiga kön: "))
+            animal.gender = input("Vänligen skriv djurets riktiga kön: ")
             print("-----------")
         self.animals.append(animal)
         self.num_of_animals += 1
@@ -360,7 +360,8 @@ def get_unique_species(zoo):
         unique_animal_list.append(animal.species)
         # Projektion på sig själv, tar fram de unika värdena
         # och stoppar dem i en ny lista
-        return list(set(unique_animal_list))
+
+    return list(set(unique_animal_list))
 
 
 def species_counter(zoo, cond):
@@ -375,7 +376,7 @@ def species_counter(zoo, cond):
         for animal in zoo.animals:
             if animal.species == ani:
                 n += 1
-                string = ("borde köpas in en {0} av könet: {1}. "
+                string = ("För att avla borde det köpas in en {0} av könet: {1}. "
                           "Det finns för närvarande {2} st. av den djurarten i parken. "
                           "Den eller de är av könet: {3}.") \
                     .format(str(ani), str({"Hona", "Hane"}.difference({animal.gender}))
@@ -385,18 +386,14 @@ def species_counter(zoo, cond):
                         male += 1
                     elif animal.gender == "Hona":
                         female += 1
-            if cond == "breed" and (male or female) and abs(male - female) > 1:
-                # Om det finns fler hanar än honor eller tvärtom, samt att animal.gender
-                # existerar, skrivs det djuret ut och vilket kön som bör köpas.
-                print(string)
-
+        if cond == "breed" and (male or female) and abs(male - female) > 1:
+            # Om det finns fler hanar än honor eller tvärtom, samt att animal.gender
+            # existerar, skrivs det djuret ut och vilket kön som bör köpas.
+            print(string)
         if all([cond == "solo", string, n == 1]):
             print(string)
-
-        if cond == "many":
-            if n > 1:
-                print("Du kan sälja en", ani + ". Det finns redan", n, "st. av typen.\n")
-
+        if cond == "many" and n > 1:
+            print("Du kan sälja en", ani + ". Det finns redan", n, "st. av den typen.\n")
 
 
 def rec(zoo):
@@ -411,14 +408,14 @@ def rec(zoo):
     else:
         buy = False
     if buy:
-        if zoo.num_of_animals < 18:
+        if zoo.num_of_animals < zoo.max:
             species_counter(zoo, cond="solo")
             species_counter(zoo, cond="breed")
         else:
             print("Du har inte plats för fler djur.")
     else:
         # if zoo.num_of_animals > zoo.max:
-        if zoo.num_of_animals > 5:
+        if zoo.num_of_animals >= 10:
             species_counter(zoo, cond="many")
         else:
             print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
@@ -449,12 +446,4 @@ def main():
     zoo.save_to_file(file)
     print("Välkommen åter!")
 
-#main()
-file = "animal_list.txt"
-zoo = Zoo(file)
-zoo.load_animal_list_from_file()
-zoo.load_max_num_of_animals_from_file()
-rec(zoo)
-
-
-# TODO rec
+main()
