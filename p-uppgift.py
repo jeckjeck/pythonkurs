@@ -321,10 +321,10 @@ def print_all(zoo):
           " Å: Ålder. \n"
           " D: Djurart. \n"
           " G: Gå tillbaka. \n")
-    choice2 = choose()
-    if choice2 == "I":
+    attr_choice = choose()
+    if attr_choice == "I":
         [print(x) for x in zoo.animals]
-    elif choice2 == "N":
+    elif attr_choice == "N":
         print("F: i Fallande ordning?\n"
               "S: i Stigande ordning \n")
         order = choose()
@@ -332,7 +332,7 @@ def print_all(zoo):
             sorter(zoo, Animal.get_name)
         else:
             sorter(zoo, Animal.get_name, reverse=True)
-    elif choice2 == "Å":
+    elif attr_choice == "Å":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning \n")
         order = choose()
@@ -341,7 +341,7 @@ def print_all(zoo):
         else:
             sorter(zoo, Animal.get_age, reverse=True)
 
-    elif choice2 == "D":
+    elif attr_choice == "D":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning? \n")
         order = choose()
