@@ -415,7 +415,7 @@ def rec(zoo):
             print("Du har inte plats för fler djur.")
     else:
         # if zoo.num_of_animals > zoo.max:
-        if zoo.num_of_animals >= 10:
+        if zoo.num_of_animals >= zoo.max:
             species_counter(zoo, cond="many")
         else:
             print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
