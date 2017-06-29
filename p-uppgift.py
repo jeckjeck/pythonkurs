@@ -37,13 +37,6 @@ class Animal:
         self.species = species
         self.gender = gender
 
-    def __repr__(self):
-        """Formaterar strängarna till ett mer formellt format,
-           så repr() blir så lik inputen som möjligt.
-           Animal("name", age, species, "gender")
-        """
-        return "Animals({0}, {1}, {2}, {3})".format(self.name, self.age, self.species, self.gender)
-
     def __str__(self):
         """Formaterar strängarna så outputen blir snyggare
            Namn: Skutt
@@ -69,6 +62,11 @@ class Animal:
     def get_gender(self):
         """returnerar kön på djur"""
         return self.gender
+
+    """ Genom att sätta __repr__ samma som str,
+    printas listorna ut i samma format som variabler.
+    """
+    __repr__ = __str__
 
 
 class Zoo:
@@ -124,8 +122,8 @@ class Zoo:
             try:
                 int(attribute)
             except ValueError as e:
-                print(e, "Ålder ska vara en ett heltal och inte en textsträng.")
-                print("-----------")
+                print(e, "Ålder ska vara ett heltal.")
+                return int(input("Hur gammal är djuret? "))
             else:
                 return int(attribute)
         elif not is_false:
@@ -135,10 +133,9 @@ class Zoo:
                 return attribute
             else:
                 print(attribute, "är ett heltal, men det ska vara en sträng.")
-                raise ValueError
+                return input("Vänligen skriv in det som en bokstav.")
         else:
             print("is_false kan bara vara True eller False.")
-            raise ValueError
 
     def add_animal(self, animal):
         """
@@ -154,17 +151,19 @@ class Zoo:
         self.is_string(animal.species)
         self.is_string(animal.gender)
         for ani in self.animals:
-            if ani.name == animal.name:
+            while ani.name == animal.name:
                 print("Du har redan döpt något djur till", animal.name)
                 animal.name = input("Vänligen ge djuret ett annat namn: ")
                 print("------------")
-        if int(animal.age) > 200:
-            print("Djuret som heter", animal.name, "kan inte vara mer än 200 år.")
+        while 0 > int(animal.age) or int(animal.age) > 200:
+            print("Djuret som heter", animal.name, "måste vara mellan 0-200 år.")
             animal.age = int(input("Vänligen skriv djurets riktiga ålder: "))
             print("-----------")
-        if animal.gender not in ("Hane", "Hona"):
+        while animal.gender not in ("Hane", "Hona"):
             print("Kön är:", animal.gender)
             print("Kön kan bara vara Hane eller hona.")
+            animal.gender = int(input("Vänligen skriv djurets riktiga kön: "))
+            print("-----------")
         self.animals.append(animal)
         self.num_of_animals += 1
 
@@ -183,25 +182,37 @@ class Zoo:
         return None
 
     def find_animal_by_age(self, age):
-        """Söker efter djur baserat på djurets ålder"""
+        """Söker efter djur baserat på djurets ålder
+        Returnerar en lista med alla djur som har
+        åldern som specificeras i argumentet.
+        """
+        animal_list = []
         for animal in self.animals:
             if age in animal.age:
-                return animal
-        return None
+                animal_list.append(animal)
+        return animal_list
 
-    def find_animal_by_species(self, name):
-        """Söker efter djur baserat på djurets art"""
+    def find_animal_by_species(self, species):
+        """Söker efter djur baserat på djurets art.
+        Returnerar en lista med alla djur med som tillhör
+        arten som specificeras i argumentet.
+        """
+        animal_list = []
         for animal in self.animals:
-            if name in animal.name:
-                return animal
-        return None
+            if species in animal.species:
+                animal_list.append(animal)
+        return animal_list
 
     def find_animal_by_gender(self, gender):
-        """Söker efter djur baserat på djurets kön"""
+        """Söker efter djur baserat på djurets kön
+        Returnerar en lista med alla djur som har
+        könet som specificeras i argumentet.
+        """
+        animal_list = []
         for animal in self.animals:
             if gender in animal.gender:
-                return animal
-        return None
+                animal_list.append(animal)
+        return animal_list
 
     def save_to_file(self, filename):
         """Sparar till fil Skriver rad för rad."""
@@ -235,34 +246,34 @@ def search_animal(zoo):
           "Å  söka på Ålder. \n"
           "A  söka på djurArt.\n"
           "K  söka på Kön. \n")
-    choice2 = choose()
+    attribut = choose()
 
-    if choice2 == "D":
+    if attribut == "D":
         name = input("Vilket namn? ")
         animal = zoo.find_animal_by_name(name)
         if animal:
             print(animal)
         else:
             print("Tyvärr finns det inget djur med det namnet.")
-    elif choice2 == "Å":
+    elif attribut == "Å":
         age = input("Vilken ålder? ")
-        animal = zoo.find_animal_by_age(age)
-        if animal:
-            print(animal)
+        animal_list = zoo.find_animal_by_age(age)
+        if animal_list:
+            [print(animal) for animal in animal_list]
         else:
             print("Tyvärr finns det inget djur med den åldern.")
-    elif choice2 == "A":
+    elif attribut == "A":
         species = input("Vilken djurart? ")
-        animal = zoo.find_animal_by_species(species)
-        if animal:
-            print(animal)
+        animal_list = zoo.find_animal_by_species(species)
+        if animal_list:
+            [print(animal) for animal in animal_list]
         else:
             print("Tyvärr finns ingen av den djurarten ännu.")
-    elif choice2 == "K":
+    elif attribut == "K":
         gender = input("Vilket kön? ")
-        animal = zoo.find_animal_by_gender(gender)
-        if animal:
-            print(animal)
+        animal_list = zoo.find_animal_by_gender(gender)
+        if animal_list:
+            [print(animal) for animal in animal_list]
         else:
             print("Tyvärr finns det inget djur med könet", gender, "ännu.")
     else:
@@ -316,16 +327,16 @@ def print_all(zoo):
     elif choice2 == "N":
         print("F: i Fallande ordning?\n"
               "S: i Stigande ordning \n")
-        choice3 = choose()
-        if choice3 == "F":
+        order = choose()
+        if order == "F":
             sorter(zoo, Animal.get_name)
         else:
             sorter(zoo, Animal.get_name, reverse=True)
     elif choice2 == "Å":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning \n")
-        choice3 = choose()
-        if choice3 == "F":
+        order = choose()
+        if order == "F":
             sorter(zoo, Animal.get_age)
         else:
             sorter(zoo, Animal.get_age, reverse=True)
@@ -333,8 +344,8 @@ def print_all(zoo):
     elif choice2 == "D":
         print("F: i Fallande ordning? \n"
               "S: i Stigande ordning? \n")
-        choice3 = choose()
-        if choice3 == "F":
+        order = choose()
+        if order == "F":
             sorter(zoo, Animal.get_species)
         else:
             sorter(zoo, Animal.get_species, reverse=True)
@@ -362,28 +373,32 @@ def species_counter(zoo, cond):
             male = 0
             female = 0
         for animal in zoo.animals:
-            if animal.species == species:
+            if species == animal.species:
                 n += 1
+                print(species)
                 # strängen som printas vid rekommendationer skapas redan här
                 # då den används på två olika ställen.
-                string = ("borde köpas in en {0} av könet: {1}. "
-                          "Det finns för närvarande {2} st. av den djurarten i parken. "
-                          "Den eller de är av könet: {3}.") \
-                    .format(str(species), str({"Hona", "Hane"}.difference({animal.gender}))
-                            .strip("{'}"), n, str(animal.gender))
-                if cond == "breed":
-                    if animal.gender == "Hane":
-                        male += 1
-                    elif animal.gender == "Hona":
-                        female += 1
-            if cond == "breed" and (male or female) and abs(male - female) > 1:
-                # Om det finns fler hanar än honor eller tvärtom, samt att animal.gender
-                # existerar, skrivs det djuret ut och vilket kön som bör köpas.
-                print(string)
 
-        if all([cond == "solo", string, n == 1]):
-            print(string)
+                # string = ("borde köpas in en {0} av könet: {1}. "
+                #           "Det finns för närvarande {2} st. av den djurarten i parken. "
+                #           "Den eller de är av könet: {3}.") \
+                #     .format(str(species), str({"Hona", "Hane"}.difference({animal.gender}))
+                #             .strip("{'}"), n, str(animal.gender))
 
+            if cond == "breed" and (male or female):
+                if abs(male - female) > 1 and animal.gender:
+                    print("Du borde köpa in en", species, "av könet:",
+                          str({"Hona", "Hane"}.difference({animal.gender})).strip("{'}") +
+                          ". Det finns för tillfället", n, "st. av typen",
+                          "av könet", animal.gender + ".\n")
+
+        if cond == "solo" and n == 1:
+            print("Du borde köpa in en", species, "av könet: {0}. "
+                                              "Det finns bara en av den djurarten i parken. "
+                                              "Den är av könet:"
+                  .format(str({"Hona", "Hane"}
+                              .difference({animal.gender}))
+                          .strip("{'}")), animal.gender + ". \n")
         if cond == "many":
             if n > 1:
                 print("Du kan sälja en", species + ". Det finns redan", n, "st. av typen.\n")
@@ -401,13 +416,14 @@ def rec(zoo):
     else:
         buy = False
     if buy:
-        if zoo.num_of_animals < zoo.max:
+        if zoo.num_of_animals < 18:
             species_counter(zoo, cond="solo")
             species_counter(zoo, cond="breed")
         else:
             print("Du har inte plats för fler djur.")
     else:
-        if zoo.num_of_animals > zoo.max:
+        # if zoo.num_of_animals > zoo.max:
+        if zoo.num_of_animals > 5:
             species_counter(zoo, cond="many")
         else:
             print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
@@ -438,4 +454,12 @@ def main():
     zoo.save_to_file(file)
     print("Välkommen åter!")
 
-main()
+#main()
+file = "animal_list.txt"
+zoo = Zoo(file)
+zoo.load_animal_list_from_file()
+zoo.load_max_num_of_animals_from_file()
+rec(zoo)
+
+
+# TODO rec
