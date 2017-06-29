@@ -1,1 +1,0 @@
-['Bebbe', 5, 'Gorilla', 'Hona']['Bollen', 2, 'Panda', 'Hane']['Cosmos', 7, 'Surikat', 'Hane']['Diddi', 3, 'Alligator', 'Hane']['Skutt', 4, 'Antilop', 'Hona']['Wingo', 12, 'Alligator', 'Hona']['Marcello', 6, 'Älg', 'Hane']['Flax', 15, 'Papegoja', 'Hane']['Sipper', 12, 'Gnu', 'Hona']
