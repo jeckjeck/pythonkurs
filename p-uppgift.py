@@ -63,9 +63,8 @@ class Animal:
         """returnerar kön på djur"""
         return self.gender
 
-    """ Genom att sätta __repr__ samma som str,
-    printas listorna ut i samma format som variabler.
-    """
+    # Genom att ansätta __repr__ samma som str,
+    # printas listorna ut i samma format som variabler.
     __repr__ = __str__
 
 
@@ -240,6 +239,7 @@ def choose():
     """returnerar användarens val."""
     return input("Vad vill du göra? ")[0].upper()
 
+
 def search_animal(zoo):
     """Menyval för vilket attribut och vad
     det ska vara för värde som det ska sökas på
@@ -252,7 +252,7 @@ def search_animal(zoo):
           " G: Gå tillbaka. \n")
     attribute = choose()
     if attribute == "G":
-        main(back=True)
+        return
     if attribute == "D":
         name = input("Vilket namn? ")
         animal = zoo.find_animal_by_name(name)
@@ -300,7 +300,6 @@ def animal_attribute_choice():
     while not gender:
         gender = input("Vilken kön har djuret? Hane eller Hona. ").title()
     return name, age, species, gender
-
 
 
 def add_animal(zoo):
@@ -365,7 +364,7 @@ def print_all(zoo):
         else:
             sorter(zoo, Animal.get_species, reverse=True)
     elif attr_choice == "G":
-        main(back=True)
+        return
 
 
 def get_unique_species(zoo):
@@ -426,8 +425,8 @@ def rec_animals(zoo):
     buy = False
     if user_choice == "K":
         buy = True
-    if user_choice == "G":
-        main(back=True)
+    elif user_choice == "G":
+        return
     if buy:
         if zoo.num_of_animals < zoo.max_space_for_animal_park:
             species_counter(zoo, cond="solo")
@@ -441,15 +440,12 @@ def rec_animals(zoo):
             print("Du behöver inte sälja något djur. Då det fortfarande finns plats för fler.")
 
 
-def main(back=False):
+def main():
     file = "animal_list.txt"
     zoo = Zoo(file)
     zoo.load_animal_list_from_file()
     zoo.load_max_num_of_animals_from_file()
-    if back:
-        print("\n\nVad vill du göra härnäst?")
-    if not back:
-        print("Välkommen till Djurparksprogrammet.")
+    print("Välkommen till Djurparksprogrammet.")
     print_menu()
     user_main_choice = choose()
     while user_main_choice != "A":
@@ -463,13 +459,9 @@ def main(back=False):
             print_all(zoo)
         elif user_main_choice == "R":
             rec_animals(zoo)
-            user_main_choice = choose()
-
+        print_menu()
+        user_main_choice = choose()
     zoo.save_animals_to_file(file)
     print("Välkommen åter!")
 
 main()
-
-
-# TODO Felhantering
-# När jag matade in A vid “vad vill du göra?” som kom upp efter att jag listat djur så skriver programmet ut “välkommen åter!” och sedan “Vad vill du göra?” igen. När jag skriver in A en andra gång stängs programmet ner.
