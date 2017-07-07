@@ -238,9 +238,7 @@ def print_menu():
 
 def choose():
     """returnerar användarens val."""
-    return input("Vad vill du göra? ")
-
-
+    return input("Vad vill du göra? ")[0].upper()
 
 def search_animal(zoo):
     """Menyval för vilket attribut och vad
