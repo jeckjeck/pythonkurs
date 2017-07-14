@@ -119,7 +119,7 @@ class Zoo:
             param is_false (bool): default är False. Sätt till True
                         för att testa om strängen består av heltal.
         returns:
-            ett heltal om man testar för heltal, motsvarande för sträng.
+            ett heltal om en testar för heltal, motsvarande för sträng.
         """
         if is_false:
             try:
